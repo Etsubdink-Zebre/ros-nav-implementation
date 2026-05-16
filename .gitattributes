@@ -1,0 +1,23 @@
+# Force LF line endings on all source-controlled text files so shebangs
+# (#!/usr/bin/env python3) work when checked out on Windows and run via WSL.
+* text=auto eol=lf
+
+# Explicit list of file types that MUST be LF (shebangs, parsers, etc.)
+*.py    text eol=lf
+*.sh    text eol=lf
+*.yaml  text eol=lf
+*.yml   text eol=lf
+*.xml   text eol=lf
+*.xacro text eol=lf
+*.world text eol=lf
+*.rviz  text eol=lf
+*.md    text eol=lf
+CMakeLists.txt text eol=lf
+
+# Binary assets — leave alone
+*.png   binary
+*.jpg   binary
+*.gif   binary
+*.pgm   binary
+*.posegraph binary
+*.data  binary
