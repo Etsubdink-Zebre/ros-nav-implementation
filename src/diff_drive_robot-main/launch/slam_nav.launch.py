@@ -172,30 +172,6 @@ def _build_runtime_actions(context, pkg_share: str):
             arguments=['-d', os.path.join(pkg_share, 'rviz', 'bot.rviz')],
             output='screen')])
 
-    # ── Safety Layer: Collision Monitor ───────────────────────────────────
-    safety = LaunchConfiguration('safety')
-    collision_monitor = GroupAction(
-        condition=IfCondition(safety),
-        actions=[
-            LogInfo(msg='[slam_nav] Collision monitor ENABLED (starting in 15s)…'),
-            TimerAction(
-                period=15.0,
-                actions=[Node(
-                    package='diff_drive_robot',
-                    executable='collision_monitor.py',
-                    name='collision_monitor',
-                    output='screen',
-                    parameters=[{
-                        'stop_distance':     0.30,
-                        'slowdown_distance': 0.70,
-                        'front_angle_deg':   60.0,
-                        'watch_all_around':  False,
-                    }],
-                )]
-            ),
-        ]
-    )
-
     # ── Mission Layer: Mission Server ──────────────────────────────────────
     mission_server = TimerAction(
         period=15.0,
@@ -240,7 +216,6 @@ def _build_runtime_actions(context, pkg_share: str):
         slam,
         nav2,
         rviz2,
-        collision_monitor,
         mission_server,
         frontier_node,
     ]
@@ -274,8 +249,5 @@ def generate_launch_description():
         DeclareLaunchArgument(
             name='explore', default_value='false',
             description='Auto-start frontier explorer and map saving when true'),
-        DeclareLaunchArgument(
-            name='safety', default_value='true',
-            description='Launch collision monitor safety layer'),
         OpaqueFunction(function=_build_runtime_actions, args=[pkg_share]),
     ])

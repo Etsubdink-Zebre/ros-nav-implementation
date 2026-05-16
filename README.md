@@ -84,32 +84,78 @@ colcon build --symlink-install --packages-select diff_drive_robot
 
 Why: `build/` and `install/` stay on WSL's native ext4 (fast); only the source tree is read across the `/mnt/c` 9P mount, which is cheap for small text files. Building directly under `/mnt/c` is too slow to be usable.
 
-**Launch from a Windows cmd / PowerShell window** (Gazebo and RViz appear on the Windows desktop via WSLg):
-```bat
-:: Single robot, manual drive + SLAM in maze
-wsl -d Ubuntu -- bash -lc "source /opt/ros/jazzy/setup.bash && source ~/rosnav/install/setup.bash && ros2 launch diff_drive_robot slam_nav.launch.py world_name:=maze rviz:=True"
+### Use Windows Terminal, not cmd.exe
 
-:: Autonomous frontier exploration
-wsl -d Ubuntu -- bash -lc "source /opt/ros/jazzy/setup.bash && source ~/rosnav/install/setup.bash && ros2 launch diff_drive_robot slam_nav.launch.py world_name:=maze explore:=true"
+Open **Windows Terminal** (press **Win**, type *Terminal*) and click the **▼** in the tab bar → **Ubuntu**. This gives you a real Linux TTY, which is required for `teleop_twist_keyboard` to capture single keystrokes. Plain `cmd.exe` running `wsl -- bash -lc "..."` does **not** forward raw stdin correctly — teleop will appear to start but won't respond to key presses.
 
-:: Multi-robot
-wsl -d Ubuntu -- bash -lc "source /opt/ros/jazzy/setup.bash && source ~/rosnav/install/setup.bash && ros2 launch diff_drive_robot multi_robot.launch.py"
+Each window/terminal you open below is a **separate Ubuntu tab** in Windows Terminal.
+
+### Tab 1 — Launch the stack (Gazebo + RViz + Nav2 + SLAM)
+
+```bash
+source /opt/ros/jazzy/setup.bash
+source ~/rosnav/install/setup.bash
+ros2 launch diff_drive_robot slam_nav.launch.py world_name:=maze rviz:=True
 ```
 
-**Teleop in a second cmd window**:
-```bat
-wsl -d Ubuntu -- bash -lc "source /opt/ros/jazzy/setup.bash && ros2 run teleop_twist_keyboard teleop_twist_keyboard"
+Wait for these two lines before going further (~90 s on first run because Smac Hybrid-A* builds a 401×401 heuristic table):
+
+```
+[lifecycle_manager-18] Managed nodes are active
+[lifecycle_manager-18] Creating bond timer...
 ```
 
-**Save the SLAM map** (third cmd window, replace path with your repo location):
-```bat
-wsl -d Ubuntu -- bash -lc "source /opt/ros/jazzy/setup.bash && source ~/rosnav/install/setup.bash && ros2 run nav2_map_server map_saver_cli -f ~/rosnav/src/diff_drive_robot-main/maps/map_maze"
+Other launches you can run from Tab 1 instead:
+```bash
+# Autonomous frontier exploration
+ros2 launch diff_drive_robot slam_nav.launch.py world_name:=maze explore:=true
+
+# Multi-robot
+ros2 launch diff_drive_robot multi_robot.launch.py
 ```
 
-**When you need to rebuild**: only for `CMakeLists.txt`, `package.xml`, C++ source, or when adding/removing a script. Pure `.py`/`.yaml`/`.xml`/`.xacro` edits do not require a rebuild — just relaunch.
-```bat
-wsl -d Ubuntu -- bash -lc "source /opt/ros/jazzy/setup.bash && cd ~/rosnav && colcon build --symlink-install --packages-select diff_drive_robot"
+### Tab 2 — Teleop (drive the robot with the keyboard)
+
+Open a new Ubuntu tab.
+
+```bash
+source /opt/ros/jazzy/setup.bash
+ros2 run teleop_twist_keyboard teleop_twist_keyboard
 ```
+
+Click **into this tab** so it has focus, then press `i / j / k / l / ,` to drive. The `currently: speed 0.50 turn 1.00` line stays unchanged for direction keys — only `q / z / w / x / e / c` (speed adjustments) update it.
+
+### Tab 3 — Save the SLAM map after exploring
+
+Open a new Ubuntu tab.
+
+```bash
+source /opt/ros/jazzy/setup.bash
+source ~/rosnav/install/setup.bash
+ros2 run nav2_map_server map_saver_cli -f ~/rosnav/src/diff_drive_robot-main/maps/map_maze
+```
+
+Writes `map_maze.pgm` + `map_maze.yaml`. After this, `robot.launch.py` can load the map for pure-AMCL navigation.
+
+### Rebuild (only when needed)
+
+Pure `.py` / `.yaml` / `.xml` / `.xacro` edits do **not** require a rebuild — the symlinked install picks them up at next launch. Rebuild only when you change `CMakeLists.txt`, `package.xml`, C++ source, or add/remove a script:
+
+```bash
+source /opt/ros/jazzy/setup.bash
+cd ~/rosnav && colcon build --symlink-install --packages-select diff_drive_robot
+```
+
+### Diagnostics
+
+If a launch seems healthy but the robot won't respond to teleop, the most common cause is **multiple publishers on `/cmd_vel`** (a safety node flooding zero-velocity). Diagnose with:
+
+```bash
+source /opt/ros/jazzy/setup.bash
+ros2 topic info /cmd_vel --verbose
+```
+
+There should be exactly one publisher (`teleop_twist_keyboard` when driving manually, or `controller_server` during a Nav2 goal). If you see another publisher overriding, it's a config issue — see Troubleshooting near the bottom of this README.
 
 ---
 
@@ -493,6 +539,10 @@ ros2 run teleop_twist_keyboard teleop_twist_keyboard
 | Map not saving correctly | Ensure `explore:=true` is set. Maps save to `src/diff_drive_robot-main/maps/` |
 | Frontier says `No frontiers` repeatedly | Check SLAM logs for `TF_OLD_DATA` / dropped scans and kill stale Gazebo/ROS processes before relaunch |
 | Robot not moving | Run `ros2 topic hz /cmd_vel` — if 0, Nav2 lifecycle failed; check node list |
+| Teleop keys do nothing in Gazebo, robot stuck | `ros2 topic info /cmd_vel --verbose` — if a `collision_monitor` (Python watchdog) appears as a publisher alongside teleop, it's flooding `Twist(0,0)` at 20 Hz from STOP state. Either move the spawn farther from walls (`spawn_x:=…`), lower `stop_distance`, or run `pkill -f collision_monitor.py`. Nav2's C++ collision_monitor (separate) remains as the proper safety layer. |
+| `python3\r: No such file or directory` on script startup | Source files have CRLF line endings. Strip with `find src -name '*.py' -exec sed -i 's/\r$//' {} +` and commit the `.gitattributes` to prevent recurrence. |
+| `Considering footprint in collision checking but no robot footprint provided` (controller_server FATAL) | MPPI CostCritic wants explicit footprint but costmap only has `robot_radius`. Set `consider_footprint: false` under `controller_server.FollowPath.CostCritic` in `nav2_params_jazzy.yaml`. |
+| Teleop runs but `i / k / j / l` do nothing (no robot motion, no error) | You're launching teleop via `wsl -- bash -lc "ros2 run teleop_twist_keyboard ..."` from `cmd.exe`. Raw stdin isn't forwarded. Open **Windows Terminal → Ubuntu** instead. |
 | Multi-robot robots not visible in Gazebo | Ensure you have sourced and rebuilt after the latest fixes (`colcon build --symlink-install`) |
 | Coordinator logs `goal rejected` immediately | Nav2 for that robot hasn't finished starting — coordinator will retry on next poll cycle (every 2s) |
 | All robots go to same area | Old per-robot `frontier_explorer` nodes still running — kill them; only `frontier_coordinator` should run |
