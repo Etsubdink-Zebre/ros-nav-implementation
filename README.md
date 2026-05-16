@@ -3,26 +3,10 @@
 
 ## Overview
 
-Autonomous robot navigation using **Nav2**, **SLAM Toolbox**, and **Gazebo Harmonic**. Includes frontier-based exploration, waypoint following, multi-robot support, and 2D LiDAR. Works on **ROS 2 Humble and Jazzy** — distro is detected automatically at launch.
-
-
+Autonomous robot navigation using **Nav2**, **SLAM Toolbox**, and **Gazebo Harmonic** on **ROS 2 Jazzy**. Includes frontier-based exploration, waypoint following, multi-robot support, and 2D LiDAR.
 
 ![alt text](images/nav2spedup-ezgif.com-video-to-gif-converter.gif)
 ![alt text](images/map_demo.png)
-
----
-
-## ⚠️ Humble vs Jazzy — Automatic Params Selection
-
-Nav2 plugin naming differs between distros. **The launch files detect `$ROS_DISTRO` automatically** and pick the right config:
-
-| Distro | Params file used | Plugin format |
-|---|---|---|
-| **Humble** (default) | `config/nav2_params.yaml` | `nav2_behaviors/Spin` |
-| **Jazzy** | `config/nav2_params_jazzy.yaml` | `nav2_behaviors::Spin` |
-
-> No manual changes needed — just `source /opt/ros/<distro>/setup.bash` before launching.
-> If `$ROS_DISTRO` is missing, launch files fall back to **Humble** params.
 
 ---
 
@@ -54,22 +38,23 @@ Nav2 plugin naming differs between distros. **The launch files detect `$ROS_DIST
 
 ## Requirements
 
-| | Humble | Jazzy |
-|---|---|---|
-| OS | Ubuntu 22.04 | Ubuntu 24.04 |
-| Gazebo | Harmonic | Harmonic |
+| | |
+|---|---|
+| ROS 2 | Jazzy |
+| OS | Ubuntu 24.04 |
+| Gazebo | Harmonic |
 
 ---
 
 ## Installation
 
 ```bash
-# Replace 'humble' with 'jazzy' on Ubuntu 24.04
 sudo apt install -y \
-  ros-humble-ros-gz ros-humble-ros-gz-bridge \
-  ros-humble-xacro ros-humble-joint-state-publisher \
-  ros-humble-nav2-bringup ros-humble-slam-toolbox \
-  ros-humble-navigation2 ros-humble-teleop-twist-keyboard
+  ros-jazzy-ros-gz ros-jazzy-ros-gz-bridge \
+  ros-jazzy-xacro ros-jazzy-joint-state-publisher \
+  ros-jazzy-nav2-bringup ros-jazzy-slam-toolbox \
+  ros-jazzy-navigation2 ros-jazzy-teleop-twist-keyboard \
+  ros-jazzy-nav2-smac-planner
 
 mkdir -p ~/rosnav/src && cd ~/rosnav/src
 git clone https://github.com/Etsubdink-Zebre/ros-nav-implementation.git

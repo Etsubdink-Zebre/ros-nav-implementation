@@ -264,7 +264,7 @@ def main(args=None):
         try:
             node.destroy_node()
         except (KeyError, Exception):
-            pass  # Humble rclpy KeyError on ActionClient cleanup
+            pass
         if rclpy.ok():
             rclpy.shutdown()
 

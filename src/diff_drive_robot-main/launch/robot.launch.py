@@ -13,17 +13,7 @@ from launch.actions import (
     OpaqueFunction,
 )
 
-# ---------------------------------------------------------------------------
-# Distro-agnostic helper: works on Humble (GZ Fortress/Garden) and Jazzy (GZ Harmonic)
-# Both distros use the 'ros_gz_sim' / 'ros_gz_bridge' package names; the
-# underlying Gazebo version is selected by the environment automatically.
-# We just need to note the distro for any args that differ.
-ROS_DISTRO = os.environ.get('ROS_DISTRO', 'humble')
-
-# Auto-select nav2 params based on distro:
-#   Humble: nav2_params.yaml  (behaviors use /Spin format)
-#   Jazzy:  nav2_params_jazzy.yaml  (behaviors use ::Spin format)
-_NAV2_PARAMS = 'nav2_params_jazzy.yaml' if ROS_DISTRO == 'jazzy' else 'nav2_params.yaml'
+_NAV2_PARAMS = 'nav2_params_jazzy.yaml'
 
 
 def _resolve_map_file(map_arg: str, world_path: str, home: str, pkg_share: str) -> str:
@@ -55,7 +45,7 @@ def _build_nav2_action(context, pkg_share: str, home: str):
     params_file = os.path.join(pkg_share, 'config', _NAV2_PARAMS)
 
     return [
-        LogInfo(msg=f'[robot.launch] ROS_DISTRO={ROS_DISTRO}, params={os.path.basename(params_file)}'),
+        LogInfo(msg=f'[robot.launch] params={os.path.basename(params_file)}'),
         LogInfo(msg=f'[robot.launch] using map={map_file}'),
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource(

@@ -19,7 +19,7 @@ Architecture
     - A static map_server publishes a pre-built map.
     - Every robot runs its own AMCL for localisation.
 
-• Nav2 params use a single template file (nav2_multirobot_params.yaml).
+• Nav2 params use a single template file (nav2_multirobot_params_jazzy.yaml).
   The placeholder ROBOT_NS is substituted at launch — no per-robot YAML files.
 
 Usage
@@ -48,13 +48,7 @@ import yaml
 
 from ament_index_python.packages import get_package_share_directory
 
-ROS_DISTRO = os.environ.get('ROS_DISTRO', 'humble')
-# Behaviour plugin format differs between distros (/ vs ::)
-_MR_PARAMS = (
-    'nav2_multirobot_params_jazzy.yaml'
-    if ROS_DISTRO == 'jazzy'
-    else 'nav2_multirobot_params.yaml'
-)
+_MR_PARAMS = 'nav2_multirobot_params_jazzy.yaml'
 from launch import LaunchDescription
 from launch.actions import (
     DeclareLaunchArgument, ExecuteProcess, GroupAction, IncludeLaunchDescription,

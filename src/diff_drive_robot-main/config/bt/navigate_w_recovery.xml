@@ -13,8 +13,8 @@
   Outer RecoveryNode retries the whole navigate+recover loop up to 6 times.
   If the goal is updated mid-flight, recovery exits immediately (GoalUpdated).
 
-  Nav2 BT node reference (Humble):
-    https://navigation.ros.org/behavior_trees/trees/nav2_bt_navigator_navigate_to_pose.html
+  Nav2 BT node reference:
+    https://docs.nav2.org/behavior_trees/trees/nav2_bt_navigator_navigate_to_pose.html
 -->
 <root main_tree_to_execute="MainTree">
   <BehaviorTree ID="MainTree">

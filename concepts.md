@@ -81,27 +81,18 @@ Nav2 is the ROS 2 navigation framework. It is a collection of nodes managed by *
 
 ---
 
-## 5. Nav2 Plugin Naming — Humble vs Jazzy
+## 5. Nav2 Plugin Naming (Jazzy)
 
-> **This is a common gotcha when switching between ROS distros.**
+Jazzy uses the `::` separator for all Nav2 plugin class names:
 
-Nav2 plugin names changed format between Humble and Jazzy:
+| Plugin | Class name |
+|---|---|
+| Behaviors (Spin, BackUp…) | `nav2_behaviors::Spin` |
+| NavFn planner | `nav2_navfn_planner::NavfnPlanner` |
+| Costmap layers | `nav2_costmap_2d::StaticLayer` |
+| MPPI controller | `nav2_mppi_controller::MPPIController` |
 
-| Plugin | Humble | Jazzy |
-|---|---|---|
-| Behaviors (Spin, BackUp…) | `nav2_behaviors/Spin` | `nav2_behaviors::Spin` |
-| NavFn planner | `nav2_navfn_planner/NavfnPlanner` | `nav2_navfn_planner::NavfnPlanner` |
-| Costmap layers | `nav2_costmap_2d::StaticLayer` | `nav2_costmap_2d::StaticLayer` |
-| MPPI controller | `nav2_mppi_controller::MPPIController` | `nav2_mppi_controller::MPPIController` |
-
-This project ships **two config files** and auto-selects at launch via `$ROS_DISTRO`:
-- `config/nav2_params.yaml` — Humble (default)
-- `config/nav2_params_jazzy.yaml` — Jazzy
-
-The launch files contain:
-```python
-_NAV2_PARAMS = 'nav2_params_jazzy.yaml' if ROS_DISTRO == 'jazzy' else 'nav2_params.yaml'
-```
+Params file: `config/nav2_params_jazzy.yaml`. Hard-coded in the launch files.
 
 ---
 
@@ -121,7 +112,7 @@ Costmaps are grids that encode how dangerous each cell is.
 **Model Predictive Path Integral** — the local controller used in this project.
 It samples thousands of random velocity trajectories in parallel, scores them against a cost function (stay on path, avoid obstacles, prefer forward motion), and executes the lowest-cost one.
 
-Configured under `controller_server → FollowPath` in `nav2_params.yaml`.
+Configured under `controller_server → FollowPath` in `nav2_params_jazzy.yaml`.
 
 ---
 
@@ -193,7 +184,7 @@ map_server ──► /map (shared, static)
 
 ### Scalability — adding more robots
 The fleet is driven by the **ROBOTS list** at the top of `multi_robot.launch.py`.
-Nav2 params use a single **template file** (`nav2_multirobot_params.yaml`) — the
+Nav2 params use a single **template file** (`nav2_multirobot_params_jazzy.yaml`) — the
 placeholder `ROBOT_NS` is substituted at launch time. No per-robot YAML files needed.
 
 ```python
@@ -237,7 +228,7 @@ ros2 action send_goal /robot2/navigate_to_pose nav2_msgs/action/NavigateToPose \
 | File | Role |
 |---|---|
 | `launch/multi_robot.launch.py` | Main launch — edit ROBOTS list to scale fleet |
-| `config/nav2_multirobot_params.yaml` | Template params (ROBOT_NS placeholder) |
+| `config/nav2_multirobot_params_jazzy.yaml` | Template params (ROBOT_NS placeholder) |
 | `config/mapper_params_multirobot.yaml` | SLAM params for robot1 in explore mode |
 
 ### Bugs fixed
@@ -498,7 +489,7 @@ Standalone global planner using the **A\* algorithm**:
 
 ```bash
 # Every new terminal needs this
-source /opt/ros/humble/setup.bash           # or jazzy
+source /opt/ros/jazzy/setup.bash
 source ~/rosnav/install/setup.bash
 
 # Build after any changes
@@ -700,7 +691,7 @@ The MPPI controller outputs velocity commands that can change abruptly between t
 MPPI Controller → /cmd_vel → velocity_smoother → /cmd_vel_smoothed → gz_bridge → Gazebo
 ```
 
-**Key parameters** (in `nav2_params.yaml` under `velocity_smoother`):
+**Key parameters** (in `nav2_params_jazzy.yaml` under `velocity_smoother`):
 
 | Parameter | Default | Meaning |
 |---|---|---|
@@ -750,7 +741,7 @@ NavigateToPose goal received
             4. Wait 3s             — let dynamic obstacles clear
 ```
 
-Registered in `nav2_params.yaml`:
+Registered in `nav2_params_jazzy.yaml`:
 ```yaml
 bt_navigator:
   default_nav_to_pose_bt_xml: "<pkg_share>/config/bt/navigate_w_recovery.xml"

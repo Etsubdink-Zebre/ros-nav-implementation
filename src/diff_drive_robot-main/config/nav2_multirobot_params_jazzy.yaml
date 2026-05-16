@@ -1,4 +1,4 @@
-# nav2_multirobot_params.yaml  —  Humble format
+# nav2_multirobot_params_jazzy.yaml  —  Jazzy
 # ─────────────────────────────────────────────────────────────────────────────
 # Template for scalable multi-robot navigation.
 # ROBOT_NS is replaced at launch time with the actual robot namespace

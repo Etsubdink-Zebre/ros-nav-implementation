@@ -6,8 +6,7 @@ from launch.substitutions import LaunchConfiguration
 from ament_index_python.packages import get_package_share_directory
 from nav2_common.launch import RewrittenYaml
 
-ROS_DISTRO = os.environ.get('ROS_DISTRO', 'humble')
-_NAV2_PARAMS = 'nav2_params_jazzy.yaml' if ROS_DISTRO == 'jazzy' else 'nav2_params.yaml'
+_NAV2_PARAMS = 'nav2_params_jazzy.yaml'
 
 
 def _resolve_map_file(map_arg: str, world_path: str, home: str, pkg_share: str) -> str:
@@ -47,7 +46,7 @@ def _build_nav2_action(context, pkg_share: str, home: str):
     ).perform(context)
 
     return [
-        LogInfo(msg=f'[nav2.launch] ROS_DISTRO={ROS_DISTRO}, params={os.path.basename(raw_params)}'),
+        LogInfo(msg=f'[nav2.launch] params={os.path.basename(raw_params)}'),
         LogInfo(msg=f'[nav2.launch] using map={map_file}'),
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource(

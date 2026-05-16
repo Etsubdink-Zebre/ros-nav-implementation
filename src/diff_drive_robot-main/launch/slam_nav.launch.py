@@ -27,8 +27,7 @@ from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
 
-ROS_DISTRO = os.environ.get('ROS_DISTRO', 'humble')
-_NAV2_PARAMS = 'nav2_params_jazzy.yaml' if ROS_DISTRO == 'jazzy' else 'nav2_params.yaml'
+_NAV2_PARAMS = 'nav2_params_jazzy.yaml'
 
 
 def _resolve_world_name(raw_name: str, world_path: str) -> str:
@@ -256,7 +255,7 @@ def _build_runtime_actions(context, pkg_share: str):
     )
 
     return [
-        LogInfo(msg=f'[slam_nav.launch] ROS_DISTRO={ROS_DISTRO}, params={_NAV2_PARAMS}'),
+        LogInfo(msg=f'[slam_nav.launch] params={_NAV2_PARAMS}'),
         LogInfo(msg=f'[slam_nav.launch] world={world_path}'),
         LogInfo(msg=f'[slam_nav.launch] robot_name={robot_name.perform(context)}'),
         LogInfo(msg=f'[slam_nav.launch] save map with: ros2 run nav2_map_server map_saver_cli -f {map_prefix}'),
