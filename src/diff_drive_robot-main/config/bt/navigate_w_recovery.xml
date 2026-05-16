@@ -70,7 +70,7 @@
         <RoundRobin name="RecoveryActions">
 
           <!-- Step 1: back away from whatever caused the failure -->
-          <BackUp backup_dist="0.20" backup_speed="0.05"/>
+          <BackUp backup_dist="0.20" backup_speed="0.25"/>
 
           <!-- Step 2: spin to get fresh 360° scan coverage -->
           <Spin spin_dist="1.57"/>
@@ -86,7 +86,7 @@
           </Sequence>
 
           <!-- Step 4: wait for dynamic obstacles to clear -->
-          <Wait wait_duration="3"/>
+          <Wait wait_duration="1"/>
 
         </RoundRobin>
       </ReactiveFallback>

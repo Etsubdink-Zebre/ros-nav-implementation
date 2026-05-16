@@ -97,8 +97,8 @@ controller_server:
       vx_std: 0.2
       vy_std: 0.2
       wz_std: 0.4
-      vx_max: 0.5
-      vx_min: -0.5
+      vx_max: 2.2
+      vx_min: -1.5
       vy_max: 0.0
       wz_max: 2.5
       iteration_count: 1
@@ -142,7 +142,7 @@ controller_server:
         cost_power: 1
         cost_weight: 3.81
         critical_cost: 300.0
-        consider_footprint: true
+        consider_footprint: false
         collision_cost: 1000000.0
         near_goal_distance: 1.0
         trajectory_point_step: 2
@@ -273,9 +273,9 @@ behavior_server:
     robot_base_frame: "ROBOT_NS/base_link"
     transform_tolerance: 0.1
     simulate_ahead_time: 2.0
-    max_rotational_vel: 1.0
-    min_rotational_vel: 0.4
-    rotational_acc_lim: 3.2
+    max_rotational_vel: 2.0
+    min_rotational_vel: 0.6
+    rotational_acc_lim: 4.0
 
 waypoint_follower:
   ros__parameters:
@@ -293,10 +293,10 @@ velocity_smoother:
     smoothing_frequency: 20.0
     scale_velocities: False
     feedback: "OPEN_LOOP"
-    max_velocity: [0.5, 0.0, 2.5]
+    max_velocity: [2.2, 0.0, 3.0]
     min_velocity: [-0.5, 0.0, -2.5]
-    max_accel: [2.5, 0.0, 3.2]
-    max_decel: [-2.5, 0.0, -3.2]
+    max_accel: [5.0, 0.0, 5.0]
+    max_decel: [-5.0, 0.0, -5.0]
     odom_topic: "/ROBOT_NS/odom"
     odom_duration: 0.1
     deadband_velocity: [0.0, 0.0, 0.0]

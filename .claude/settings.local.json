@@ -1,7 +1,8 @@
 {
   "permissions": {
     "allow": [
-      "PowerShell(wsl -d Ubuntu -- bash -lc $cmd)"
+      "PowerShell(wsl -d Ubuntu -- bash -lc $cmd)",
+      "PowerShell(wsl -d Ubuntu bash -c \"ls -la ~/rosnav/install/diff_drive_robot/share/diff_drive_robot/worlds/ ; echo '---' ; ls -la /mnt/c/Users/HP/Documents/AI/Y1S2/Robotics/rosnav/src/diff_drive_robot-main/worlds/\")"
     ]
   }
 }

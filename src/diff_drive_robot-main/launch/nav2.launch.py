@@ -72,7 +72,7 @@ def generate_launch_description():
 
     declare_world = DeclareLaunchArgument(
         name='world',
-        default_value='obstacles.world',
+        default_value='maze.world',
         description='World name used only for auto map selection when map is empty')
 
     declare_sim_time = DeclareLaunchArgument(

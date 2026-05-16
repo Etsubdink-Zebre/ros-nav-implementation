@@ -78,7 +78,7 @@ def generate_launch_description():
     # Launch Arguments
     declare_world = DeclareLaunchArgument(
         name='world',
-        default_value=os.path.join(pkg_share, 'worlds', 'obstacles.world'),
+        default_value=os.path.join(pkg_share, 'worlds', 'maze.world'),
         description='Full path to the Gazebo world file')
 
     declare_rviz = DeclareLaunchArgument(

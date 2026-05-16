@@ -19,10 +19,10 @@
 
 
     <!-- PID controllers -->
-    <wheel_acceleration>1.0</wheel_acceleration>
-    <wheel_torque>10.0</wheel_torque>
-    <max_linear_speed>2.0</max_linear_speed>
-    <max_angular_speed>3.14</max_angular_speed>
+    <wheel_acceleration>2.5</wheel_acceleration>
+    <wheel_torque>20.0</wheel_torque>
+    <max_linear_speed>2.5</max_linear_speed>
+    <max_angular_speed>3.5</max_angular_speed>
 
     <odom_topic>${ns + '/odom' if ns else 'odom'}</odom_topic>
     <!-- frame IDs include namespace prefix so they are unique across robots -->

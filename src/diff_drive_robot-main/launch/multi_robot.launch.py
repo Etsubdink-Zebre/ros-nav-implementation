@@ -30,8 +30,8 @@ Usage
   # Pre-built map mode
   ros2 launch diff_drive_robot multi_robot.launch.py explore:=false
 
-  # Different world
-  ros2 launch diff_drive_robot multi_robot.launch.py world:=obstacles
+  # Override the world (only maze ships by default; drop more .world files into worlds/ to use them)
+  ros2 launch diff_drive_robot multi_robot.launch.py world:=maze
 
   # Send a nav goal to a specific robot
   ros2 action send_goal /robot1/navigate_to_pose nav2_msgs/action/NavigateToPose \\
@@ -401,9 +401,36 @@ def _build_all(context, pkg_share: str):
     # ── Centralized frontier coordinator (explore mode only) ──────────────────
     robot_ns_list = ','.join(r['name'] for r in ROBOTS)
     if explore:
-        # Start after all Nav2 stacks are up (robot1 at 10s, others at 13s)
+        # SLAM bootstrap: rotate robot1 in place to give SLAM-Toolbox enough
+        # odometry deltas + 360° scan coverage to publish a usable initial /map.
+        # Without this, robot1 sits still after spawn, SLAM has just one scan,
+        # the global costmap is tiny and lacks the robot's start cell, and the
+        # planner fails with "Start Coordinates of (-0.0, -0.0) was outside bounds".
+        slam_ns = ROBOTS[0]['name']
+        actions.append(LogInfo(
+            msg=f'[multi_robot] {slam_ns} SLAM-bootstrap rotation at t=25s (12s spin)'))
         actions.append(TimerAction(
-            period=20.0,
+            period=25.0,
+            actions=[ExecuteProcess(
+                cmd=['ros2', 'topic', 'pub', '--rate', '10', '--times', '120',
+                     f'/{slam_ns}/cmd_vel',
+                     'geometry_msgs/msg/Twist',
+                     '{linear: {x: 0.0, y: 0.0, z: 0.0}, angular: {x: 0.0, y: 0.0, z: 0.6}}'],
+                output='log')]))
+        actions.append(TimerAction(
+            period=38.0,
+            actions=[ExecuteProcess(
+                cmd=['ros2', 'topic', 'pub', '--rate', '5', '--times', '10',
+                     f'/{slam_ns}/cmd_vel',
+                     'geometry_msgs/msg/Twist',
+                     '{linear: {x: 0.0, y: 0.0, z: 0.0}, angular: {x: 0.0, y: 0.0, z: 0.0}}'],
+                output='log')]))
+
+        # Start frontier coordinator after the SLAM bootstrap completes (rotation
+        # at t=25-37s, stop at t=38-40s, coordinator at t=45s gives SLAM 5s to
+        # finalise its map and Nav2 to clear any costmap stale data).
+        actions.append(TimerAction(
+            period=45.0,
             actions=[Node(
                 package='diff_drive_robot',
                 executable='frontier_coordinator.py',
@@ -414,7 +441,7 @@ def _build_all(context, pkg_share: str):
                     'map_save_path': map_prefix,
                 }])]))
         actions.append(LogInfo(
-            msg=f'[multi_robot] frontier_coordinator will start at t=20s for {robot_ns_list}'))
+            msg=f'[multi_robot] frontier_coordinator will start at t=45s for {robot_ns_list}'))
 
     # ── Fleet management algorithms (optional) ────────────────────────────────
     if fleet_mgmt:
@@ -471,7 +498,7 @@ def generate_launch_description():
     return LaunchDescription([
         DeclareLaunchArgument(
             'world', default_value='maze',
-            description='World name (maze, obstacles) or full path to .world file'),
+            description='World name (only "maze" is currently included) or full path to .world file'),
         DeclareLaunchArgument(
             'map', default_value='',
             description='Pre-built map yaml path. Ignored when explore:=true'),

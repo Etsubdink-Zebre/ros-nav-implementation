@@ -228,7 +228,7 @@ def generate_launch_description():
         DeclareLaunchArgument(
             'world_name',
             default_value='maze',
-            description='Gazebo world name in package worlds/ (example: maze or obstacles)',
+            description='Gazebo world name in package worlds/ (only "maze" is currently included)',
         ),
         DeclareLaunchArgument(
             'world',
