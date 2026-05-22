@@ -1,0 +1,31 @@
+<?xml version="1.0" ?>
+<sdf version="1.6">
+  <model name="aws_robomaker_hospital_elevator_01_car">
+    <link name="link">
+      <visual name="visual">
+<material>
+        <pbr>
+          <metal>
+            <emissive_map>model://aws_robomaker_hospital_elevator_01_car/meshes/aws_robomaker_hospital_elevator_01_visual.png</emissive_map>
+            <roughness>0.5</roughness>
+            <metalness>0.0</metalness>
+          </metal>
+        </pbr>
+      </material>
+	    <geometry>
+          <mesh>
+            <uri>model://aws_robomaker_hospital_elevator_01_car/meshes/aws_robomaker_hospital_elevator_01_car_visual.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <mesh>
+            <uri>model://aws_robomaker_hospital_elevator_01_car/meshes/aws_robomaker_hospital_elevator_01_car_collision.dae</uri>
+          </mesh>
+        </geometry>
+      </collision>    
+</link>
+  <static>1</static>
+  </model>
+</sdf>

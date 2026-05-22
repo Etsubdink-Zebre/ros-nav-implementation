@@ -134,7 +134,7 @@ Add `source ~/rosnav/install/setup.bash` to your `~/.bashrc` if you don't want t
 The simplest way to run the stack — a wrapper script at the repo root asks two questions:
 
 ```bash
-cd ~/rosnav
+cd ~/rosnav/src/ros-nav-implementation
 ./run.sh
 ```
 
@@ -566,6 +566,19 @@ colcon build --symlink-install --packages-select diff_drive_robot
 ```
 
 Why a symlink and not building directly in `/mnt/c`: builds on the 9P-mounted Windows filesystem are unusably slow. Keeping `build/` and `install/` on WSL's native ext4 makes them fast; only the small source-text files are read across the 9P boundary.
+
+### Running the Launcher under WSL
+
+If you are using the Windows checkout through the WSL `/mnt/c/` path, navigate to the repository using Linux path syntax (forward slashes `/` and prefixed with `/mnt/c` instead of `C:`):
+
+```bash
+# Example for a repository inside your Windows Documents folder
+cd /mnt/c/Users/<Windows-Username>/OneDrive/Documents/Projects/Robotics_Project/ros-nav-implementation
+./run.sh
+```
+
+> [!WARNING]
+> Do not attempt to use Windows backslashes (e.g. `cd C:\Users\...`) or run the launcher directly from the `~/rosnav` root directory.
 
 ### Use Windows Terminal, not cmd.exe
 
