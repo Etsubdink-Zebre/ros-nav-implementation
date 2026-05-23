@@ -49,6 +49,7 @@ def generate_launch_description():
                 Command(['xacro ', urdf, ' namespace:=', namespace]),
                 value_type=str),
             'frame_prefix': frame_prefix,
+            'publish_frequency': 30.0,
         }]
     )
 

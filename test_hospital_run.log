@@ -1,0 +1,466 @@
+
+=== rosnav launcher ===
+World: hospital
+
+Fleet size?
+  [1] Single robot
+  [2] Multi robot
+
+Control mode?
+  [1] Automatic (frontier exploration)
+  [2] Manual (drive with keyboard)
+
+Launching: ros2 launch diff_drive_robot slam_nav.launch.py world:=/mnt/c/Users/Hello/OneDrive/Documents/Projects/Robotics_Project/ros-nav-implementation/src/Intelligent Autonomous Hospital Delivery-world/worlds/hospital.world explore:=true rviz:=True
+(Ctrl-C in this tab to stop the simulation.)
+
+[INFO] [launch]: All log files can be found below /home/fransi/.ros/log/2026-05-22-16-16-16-563582-DESKTOP-ALF1U4F-409
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [launch.user]: [slam_nav.launch] params=nav2_params_jazzy.yaml
+[INFO] [launch.user]: [slam_nav.launch] world=/mnt/c/Users/Hello/OneDrive/Documents/Projects/Robotics_Project/ros-nav-implementation/src/Intelligent Autonomous Hospital Delivery-world/worlds/hospital.world
+[INFO] [launch.user]: [slam_nav.launch] robot_name=diff_drive
+[INFO] [launch.user]: [slam_nav.launch] save map with: ros2 run nav2_map_server map_saver_cli -f /mnt/c/Users/Hello/OneDrive/Documents/Projects/Robotics_Project/install/diff_drive_robot/share/diff_drive_robot/maps/map_maze
+[INFO] [launch.user]: [slam_nav.launch] explore=true
+[INFO] [launch.user]: [slam_nav] Auto-exploration ENABLED. Starting frontier_explorer in 12s...
+[INFO] [robot_state_publisher-1]: process started with pid [497]
+[INFO] [gazebo-2]: process started with pid [498]
+[INFO] [gazebo-3]: process started with pid [499]
+[INFO] [parameter_bridge-4]: process started with pid [500]
+[INFO] [create-5]: process started with pid [502]
+[INFO] [rviz2-6]: process started with pid [504]
+[create-5] [INFO] [1779455785.499421149] [ros_gz_sim]: Requesting list of world names.
+[robot_state_publisher-1] [INFO] [1779455785.602060436] [robot_state_publisher]: Robot initialized
+[rviz2-6] [INFO] [1779455786.307829796] [rviz2]: Stereo is NOT SUPPORTED
+[rviz2-6] [INFO] [1779455786.308067878] [rviz2]: OpenGl version: 4.5 (GLSL 4.5)
+[rviz2-6] [INFO] [1779455786.391924447] [rviz2]: Stereo is NOT SUPPORTED
+[parameter_bridge-4] [INFO] [1779455786.602584531] [ros_gz_bridge]: Creating GZ->ROS Bridge: [/clock (gz.msgs.Clock) -> /clock (rosgraph_msgs/msg/Clock)] (Lazy 0)
+[parameter_bridge-4] [INFO] [1779455788.697179243] [ros_gz_bridge]: Creating GZ->ROS Bridge: [/joint_states (gz.msgs.Model) -> /joint_states (sensor_msgs/msg/JointState)] (Lazy 0)
+[parameter_bridge-4] [INFO] [1779455788.721691480] [ros_gz_bridge]: Creating GZ->ROS Bridge: [/odom (gz.msgs.Odometry) -> /odom (nav_msgs/msg/Odometry)] (Lazy 0)
+[parameter_bridge-4] [INFO] [1779455788.743296106] [ros_gz_bridge]: Creating ROS->GZ Bridge: [/cmd_vel (geometry_msgs/msg/Twist) -> /cmd_vel (gz.msgs.Twist)] (Lazy 0)
+[parameter_bridge-4] [INFO] [1779455788.756624688] [ros_gz_bridge]: Creating ROS->GZ Bridge: [/cmd_vel_smoothed (geometry_msgs/msg/Twist) -> /cmd_vel (gz.msgs.Twist)] (Lazy 0)
+[parameter_bridge-4] Node::Advertise(): Error advertising topic [/cmd_vel]. Did you forget to start the discovery service?
+[parameter_bridge-4] [INFO] [1779455788.769622733] [ros_gz_bridge]: Creating GZ->ROS Bridge: [/imu (gz.msgs.IMU) -> /imu (sensor_msgs/msg/Imu)] (Lazy 0)
+[parameter_bridge-4] [INFO] [1779455788.788126192] [ros_gz_bridge]: Creating GZ->ROS Bridge: [/scan (gz.msgs.LaserScan) -> /scan (sensor_msgs/msg/LaserScan)] (Lazy 0)
+[parameter_bridge-4] [INFO] [1779455788.805734446] [ros_gz_bridge]: Creating GZ->ROS Bridge: [/tf (gz.msgs.Pose_V) -> /tf (tf2_msgs/msg/TFMessage)] (Lazy 0)
+[rviz2-6] [INFO] [1779455788.806436302] [SlamToolboxPlugin]: Waiting for the slam_toolbox node configuration.
+[parameter_bridge-4] [INFO] [1779455788.825803108] [ros_gz_bridge]: Creating GZ->ROS Bridge: [/points (gz.msgs.PointCloudPacked) -> /points (sensor_msgs/msg/PointCloud2)] (Lazy 0)
+[parameter_bridge-4] [INFO] [1779455788.856833869] [ros_gz_bridge]: Creating GZ->ROS Bridge: [/camera/image_raw (gz.msgs.Image) -> /camera/image_raw (sensor_msgs/msg/Image)] (Lazy 0)
+[parameter_bridge-4] [INFO] [1779455788.885406935] [ros_gz_bridge]: Creating GZ->ROS Bridge: [/camera/camera_info (gz.msgs.CameraInfo) -> /camera/camera_info (sensor_msgs/msg/CameraInfo)] (Lazy 0)
+[create-5] [INFO] [1779455790.500221019] [ros_gz_sim]: Requesting list of world names.
+[INFO] [async_slam_toolbox_node-7]: process started with pid [673]
+[async_slam_toolbox_node-7] [INFO] [1779455791.192486697] [slam_toolbox]: Node using stack size 40000000
+[async_slam_toolbox_node-7] [INFO] [1779455791.550550996] [slam_toolbox]: Configuring
+[async_slam_toolbox_node-7] [INFO] [1779455791.587381441] [slam_toolbox]: Using solver plugin solver_plugins::CeresSolver
+[async_slam_toolbox_node-7] [INFO] [1779455791.588126249] [slam_toolbox]: CeresSolver: Using SCHUR_JACOBI preconditioner.
+[INFO] [launch.user]: [LifecycleLaunch] Slamtoolbox node is activating.
+[async_slam_toolbox_node-7] [INFO] [1779455791.636370808] [slam_toolbox]: Activating
+[rviz2-6] [INFO] [1779455792.813144392] [SlamToolboxPlugin]: Start the slam_toolbox node state check.
+[INFO] [controller_server-8]: process started with pid [693]
+[INFO] [smoother_server-9]: process started with pid [694]
+[INFO] [planner_server-10]: process started with pid [695]
+[INFO] [route_server-11]: process started with pid [696]
+[INFO] [behavior_server-12]: process started with pid [697]
+[INFO] [bt_navigator-13]: process started with pid [698]
+[INFO] [waypoint_follower-14]: process started with pid [699]
+[INFO] [velocity_smoother-15]: process started with pid [700]
+[INFO] [collision_monitor-16]: process started with pid [701]
+[INFO] [opennav_docking-17]: process started with pid [702]
+[INFO] [lifecycle_manager-18]: process started with pid [703]
+[velocity_smoother-15] [INFO] [1779455793.794568019] [velocity_smoother]: 
+[velocity_smoother-15] 	velocity_smoother lifecycle node launched. 
+[velocity_smoother-15] 	Waiting on external lifecycle transitions to activate
+[velocity_smoother-15] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[opennav_docking-17] [INFO] [1779455794.282908966] [docking_server]: 
+[opennav_docking-17] 	docking_server lifecycle node launched. 
+[opennav_docking-17] 	Waiting on external lifecycle transitions to activate
+[opennav_docking-17] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[opennav_docking-17] [INFO] [1779455794.283071894] [docking_server]: Creating docking_server
+[controller_server-8] [INFO] [1779455794.594658244] [controller_server]: 
+[controller_server-8] 	controller_server lifecycle node launched. 
+[controller_server-8] 	Waiting on external lifecycle transitions to activate
+[controller_server-8] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[behavior_server-12] [INFO] [1779455794.603073430] [behavior_server]: 
+[behavior_server-12] 	behavior_server lifecycle node launched. 
+[behavior_server-12] 	Waiting on external lifecycle transitions to activate
+[behavior_server-12] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[lifecycle_manager-18] [INFO] [1779455794.613563553] [lifecycle_manager_navigation]: Creating
+[lifecycle_manager-18] [INFO] [1779455794.628012329] [lifecycle_manager_navigation]: [34m[1mCreating and initializing lifecycle service clients[0m[0m
+[smoother_server-9] [INFO] [1779455794.630209333] [smoother_server]: 
+[smoother_server-9] 	smoother_server lifecycle node launched. 
+[smoother_server-9] 	Waiting on external lifecycle transitions to activate
+[smoother_server-9] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[collision_monitor-16] [INFO] [1779455794.639964069] [collision_monitor]: 
+[collision_monitor-16] 	collision_monitor lifecycle node launched. 
+[collision_monitor-16] 	Waiting on external lifecycle transitions to activate
+[collision_monitor-16] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[planner_server-10] [INFO] [1779455794.640572971] [planner_server]: 
+[planner_server-10] 	planner_server lifecycle node launched. 
+[planner_server-10] 	Waiting on external lifecycle transitions to activate
+[planner_server-10] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[route_server-11] [INFO] [1779455794.667937105] [route_server]: 
+[route_server-11] 	route_server lifecycle node launched. 
+[route_server-11] 	Waiting on external lifecycle transitions to activate
+[route_server-11] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[smoother_server-9] [INFO] [1779455794.671413443] [smoother_server]: Creating smoother server
+[planner_server-10] [INFO] [1779455794.685532765] [planner_server]: Creating
+[bt_navigator-13] [INFO] [1779455794.754429337] [bt_navigator]: 
+[bt_navigator-13] 	bt_navigator lifecycle node launched. 
+[bt_navigator-13] 	Waiting on external lifecycle transitions to activate
+[bt_navigator-13] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[waypoint_follower-14] [INFO] [1779455794.759355589] [waypoint_follower]: 
+[waypoint_follower-14] 	waypoint_follower lifecycle node launched. 
+[waypoint_follower-14] 	Waiting on external lifecycle transitions to activate
+[waypoint_follower-14] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[waypoint_follower-14] [INFO] [1779455794.769087048] [waypoint_follower]: Creating
+[controller_server-8] [INFO] [1779455794.780925619] [controller_server]: Creating controller server
+[bt_navigator-13] [INFO] [1779455794.811308649] [bt_navigator]: Creating
+[planner_server-10] [INFO] [1779455795.198136763] [global_costmap.global_costmap]: 
+[planner_server-10] 	global_costmap lifecycle node launched. 
+[planner_server-10] 	Waiting on external lifecycle transitions to activate
+[planner_server-10] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[planner_server-10] [INFO] [1779455795.221074634] [global_costmap.global_costmap]: Creating Costmap
+[create-5] [INFO] [1779455795.500634579] [ros_gz_sim]: Requesting list of world names.
+[controller_server-8] [INFO] [1779455795.626117946] [local_costmap.local_costmap]: 
+[controller_server-8] 	local_costmap lifecycle node launched. 
+[controller_server-8] 	Waiting on external lifecycle transitions to activate
+[controller_server-8] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[controller_server-8] [INFO] [1779455795.655150996] [local_costmap.local_costmap]: Creating Costmap
+[lifecycle_manager-18] [INFO] [1779455796.318981828] [lifecycle_manager_navigation]: [34m[1mStarting managed nodes bringup...[0m[0m
+[lifecycle_manager-18] [INFO] [1779455796.319049772] [lifecycle_manager_navigation]: [34m[1mConfiguring controller_server[0m[0m
+[controller_server-8] [INFO] [1779455796.319513368] [controller_server]: Configuring controller interface
+[controller_server-8] [INFO] [1779455796.319536381] [controller_server]: getting progress checker plugins..
+[controller_server-8] [INFO] [1779455796.324120795] [controller_server]: getting goal checker plugins..
+[controller_server-8] [INFO] [1779455796.326386503] [controller_server]: Controller frequency set to 20.0000Hz
+[controller_server-8] [INFO] [1779455796.326501226] [local_costmap.local_costmap]: Configuring
+[controller_server-8] [INFO] [1779455796.367175252] [local_costmap.local_costmap]: Using plugin "obstacle_layer"
+[controller_server-8] [INFO] [1779455796.404559665] [local_costmap.local_costmap]: Subscribed to Topics: scan
+[controller_server-8] [INFO] [1779455796.448260454] [local_costmap.local_costmap]: Initialized plugin "obstacle_layer"
+[controller_server-8] [INFO] [1779455796.448322048] [local_costmap.local_costmap]: Using plugin "inflation_layer"
+[controller_server-8] [INFO] [1779455796.460773031] [local_costmap.local_costmap]: Initialized plugin "inflation_layer"
+[controller_server-8] [INFO] [1779455796.557323921] [controller_server]: Created progress_checker : progress_checker of type nav2_controller::SimpleProgressChecker
+[controller_server-8] [INFO] [1779455796.562831224] [controller_server]: Controller Server has progress_checker  progress checkers available.
+[controller_server-8] [INFO] [1779455796.573438620] [controller_server]: Created goal checker : general_goal_checker of type nav2_controller::SimpleGoalChecker
+[controller_server-8] [INFO] [1779455796.585994632] [controller_server]: Controller Server has general_goal_checker  goal checkers available.
+[controller_server-8] [INFO] [1779455796.597729761] [controller_server]: Created controller : FollowPath of type nav2_mppi_controller::MPPIController
+[controller_server-8] [INFO] [1779455796.665237651] [controller_server]: Controller period is equal to model dt. Control sequence shifting is ON
+[controller_server-8] [INFO] [1779455796.706838905] [controller_server]: ConstraintCritic instantiated with 1 power and 4.000000 weight.
+[controller_server-8] [INFO] [1779455796.706969168] [controller_server]: Critic loaded : mppi::critics::ConstraintCritic
+[controller_server-8] [INFO] [1779455796.748264679] [controller_server]: InflationCostCritic instantiated with 1 power and 300.000000 / 0.015000 weights. Critic will collision check based on circular cost.
+[controller_server-8] [INFO] [1779455796.748344634] [controller_server]: Critic loaded : mppi::critics::CostCritic
+[controller_server-8] [INFO] [1779455796.762813910] [controller_server]: GoalCritic instantiated with 1 power and 5.000000 weight.
+[controller_server-8] [INFO] [1779455796.762871819] [controller_server]: Critic loaded : mppi::critics::GoalCritic
+[controller_server-8] [INFO] [1779455796.781945827] [controller_server]: GoalAngleCritic instantiated with 1 power, 3.000000 weight, 0.500000 angular threshold and symmetric_yaw_tolerance disabled
+[controller_server-8] [INFO] [1779455796.782025203] [controller_server]: Critic loaded : mppi::critics::GoalAngleCritic
+[controller_server-8] [INFO] [1779455796.799731714] [controller_server]: ReferenceTrajectoryCritic instantiated with 1 power and 14.000000 weight
+[controller_server-8] [INFO] [1779455796.799787445] [controller_server]: Critic loaded : mppi::critics::PathAlignCritic
+[controller_server-8] [INFO] [1779455796.811558481] [controller_server]: Critic loaded : mppi::critics::PathFollowCritic
+[controller_server-8] [INFO] [1779455796.821325961] [controller_server]: PathAngleCritic instantiated with 1 power and 2.000000 weight. Mode set to: Forward Preference
+[controller_server-8] [INFO] [1779455796.821393943] [controller_server]: Critic loaded : mppi::critics::PathAngleCritic
+[controller_server-8] [INFO] [1779455796.826867598] [controller_server]: PreferForwardCritic instantiated with 1 power and 5.000000 weight.
+[controller_server-8] [INFO] [1779455796.826936607] [controller_server]: Critic loaded : mppi::critics::PreferForwardCritic
+[controller_server-8] [INFO] [1779455796.835256824] [controller_server]: Optimizer reset
+[controller_server-8] [INFO] [1779455796.879654374] [MPPIController]: Configured MPPI Controller: FollowPath
+[controller_server-8] [INFO] [1779455796.879749307] [controller_server]: Controller Server has FollowPath  controllers available.
+[lifecycle_manager-18] [INFO] [1779455796.926911183] [lifecycle_manager_navigation]: [34m[1mConfiguring smoother_server[0m[0m
+[smoother_server-9] [INFO] [1779455796.927351398] [smoother_server]: Configuring smoother server
+[smoother_server-9] [INFO] [1779455796.981977512] [smoother_server]: Created smoother : simple_smoother of type nav2_smoother::SimpleSmoother
+[smoother_server-9] [INFO] [1779455796.997165201] [smoother_server]: Smoother Server has simple_smoother  smoothers available.
+[lifecycle_manager-18] [INFO] [1779455797.034457097] [lifecycle_manager_navigation]: [34m[1mConfiguring planner_server[0m[0m
+[planner_server-10] [INFO] [1779455797.035006317] [planner_server]: Configuring
+[planner_server-10] [INFO] [1779455797.035055024] [global_costmap.global_costmap]: Configuring
+[planner_server-10] [INFO] [1779455797.081826522] [global_costmap.global_costmap]: Using plugin "static_layer"
+[planner_server-10] [INFO] [1779455797.113430390] [global_costmap.global_costmap]: Subscribing to the map topic (/map) with transient local durability
+[planner_server-10] [INFO] [1779455797.119501836] [global_costmap.global_costmap]: Initialized plugin "static_layer"
+[planner_server-10] [INFO] [1779455797.119554507] [global_costmap.global_costmap]: Using plugin "obstacle_layer"
+[planner_server-10] [INFO] [1779455797.134251102] [global_costmap.global_costmap]: Subscribed to Topics: scan
+[planner_server-10] [INFO] [1779455797.182879898] [global_costmap.global_costmap]: Initialized plugin "obstacle_layer"
+[planner_server-10] [INFO] [1779455797.182939783] [global_costmap.global_costmap]: Using plugin "inflation_layer"
+[planner_server-10] [INFO] [1779455797.196255370] [global_costmap.global_costmap]: Initialized plugin "inflation_layer"
+[planner_server-10] [INFO] [1779455797.335359126] [planner_server]: Created global planner plugin GridBased of type nav2_smac_planner::SmacPlannerHybrid
+[planner_server-10] [INFO] [1779455797.335416510] [planner_server]: Configuring GridBased of type SmacPlannerHybrid
+[INFO] [frontier_explorer.py-19]: process started with pid [885]
+[planner_server-10] [INFO] [1779455797.417055062] [planner_server]: Even sized heuristic lookup table size set 400.000000, increasing size by 1 to make odd
+[frontier_explorer.py-19] [INFO] [1779455799.490185136] [frontier_explorer]: Waiting for Nav2 action server...
+[INFO] [mission_server.py-20]: process started with pid [900]
+[create-5] [INFO] [1779455800.500980599] [ros_gz_sim]: Requesting list of world names.
+[mission_server.py-20] [INFO] [1779455802.403295913] [mission_server]: MissionServer ready — 6 named location(s) loaded. Listening on /mission/execute
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31m[/sdf/model[@name="turtlebot"]/include[0]/uri:/home/fransi/.gz/fuel/fuel.gazebosim.org/openrobotics/models/turtlebot/3/model.sdf:L416]: [0m[1;31mMsg: [0m[1;31mUnable to find uri[model://create][0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31m[/sdf/model[@name="turtlebot"]/include[1]/uri:/home/fransi/.gz/fuel/fuel.gazebosim.org/openrobotics/models/turtlebot/3/model.sdf:L419]: [0m[1;31mMsg: [0m[1;31mUnable to find uri[model://kinect][0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_hospital_floor_01_floor/meshes/aws_robomaker_hospital_floor_01_floor_visual.dae] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_hospital_floor_01_floor/meshes/aws_robomaker_hospital_floor_01_floor_collision.dae] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_hospital_floor_01_walls/meshes/aws_robomaker_hospital_floor_01_walls_visual.dae] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_hospital_floor_01_walls/meshes/aws_robomaker_hospital_floor_01_walls_collision.dae] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_hospital_nursesstation_01/meshes/aws_robomaker_hospital_nursesstation_01_visual.dae] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_hospital_nursesstation_01/meshes/aws_robomaker_hospital_nursesstation_01_collision.dae] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_hospital_elevator_01_portal/meshes/aws_robomaker_hospital_elevator_01_portal_visual.dae] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_hospital_elevator_01_portal/meshes/aws_robomaker_hospital_elevator_01_portal_collision.dae] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_hospital_elevator_01_portal/meshes/aws_robomaker_hospital_elevator_01_portal_visual.dae] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_hospital_elevator_01_portal/meshes/aws_robomaker_hospital_elevator_01_portal_collision.dae] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_hospital_elevator_01_car/meshes/aws_robomaker_hospital_elevator_01_car_visual.dae] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_hospital_elevator_01_car/meshes/aws_robomaker_hospital_elevator_01_car_collision.dae] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_hospital_elevator_01_car/meshes/aws_robomaker_hospital_elevator_01_car_visual.dae] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_hospital_elevator_01_car/meshes/aws_robomaker_hospital_elevator_01_car_collision.dae] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_hospital_elevator_01_door/meshes/aws_robomaker_hospital_elevator_01_door_visual.dae] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_hospital_elevator_01_door/meshes/aws_robomaker_hospital_elevator_01_door_collision.dae] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_hospital_elevator_01_door/meshes/aws_robomaker_hospital_elevator_01_door_visual.dae] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_hospital_elevator_01_door/meshes/aws_robomaker_hospital_elevator_01_door_collision.dae] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_hospital_curtain_half_open_01/meshes/aws_robomaker_hospital_curtain_half_open_01_visual.dae] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_hospital_curtain_half_open_01/meshes/aws_robomaker_hospital_curtain_half_open_01_collision.dae] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_hospital_curtain_closed_01/meshes/aws_robomaker_hospital_curtain_closed_01_visual.dae] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_hospital_curtain_closed_01/meshes/aws_robomaker_hospital_curtain_closed_01_collision.dae] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_hospital_curtain_half_open_01/meshes/aws_robomaker_hospital_curtain_half_open_01_visual.dae] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_hospital_curtain_half_open_01/meshes/aws_robomaker_hospital_curtain_half_open_01_collision.dae] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_hospital_curtain_half_open_01/meshes/aws_robomaker_hospital_curtain_half_open_01_visual.dae] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_hospital_curtain_half_open_01/meshes/aws_robomaker_hospital_curtain_half_open_01_collision.dae] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_hospital_curtain_half_open_01/meshes/aws_robomaker_hospital_curtain_half_open_01_visual.dae] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_hospital_curtain_half_open_01/meshes/aws_robomaker_hospital_curtain_half_open_01_collision.dae] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_hospital_curtain_half_open_01/meshes/aws_robomaker_hospital_curtain_half_open_01_visual.dae] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_hospital_curtain_half_open_01/meshes/aws_robomaker_hospital_curtain_half_open_01_collision.dae] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_hospital_curtain_half_open_01/meshes/aws_robomaker_hospital_curtain_half_open_01_visual.dae] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_hospital_curtain_half_open_01/meshes/aws_robomaker_hospital_curtain_half_open_01_collision.dae] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_residential_CoffeeTable_01/meshes/aws_CoffeeTable_01_visual.DAE] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_residential_CoffeeTable_01/meshes/aws_CoffeeTable_01_collision.DAE] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_residential_Sofa_01/meshes/aws_Sofa_01_visual.DAE] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_residential_Sofa_01/meshes/aws_Sofa_01_collision.DAE] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_residential_TV_02/meshes/aws_TV_01_visual.DAE] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_residential_TV_02/meshes/aws_TV_01_collision.DAE] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_residential_KitchenCabinet_01/meshes/aws_KitchenCabinet_01_visual.DAE] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_residential_KitchenCabinet_01/meshes/aws_KitchenCabinet_01_collision.DAE] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_residential_Refrigerator_01/meshes/aws_Refrigerator_01_visual.DAE] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_residential_Refrigerator_01/meshes/aws_Refrigerator_01_collision.DAE] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_residential_SofaB_01/meshes/aws_SofaB_01_visual.DAE] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_residential_SofaB_01/meshes/aws_SofaB_01_collision.DAE] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_residential_SofaB_01/meshes/aws_SofaB_01_visual.DAE] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_residential_SofaB_01/meshes/aws_SofaB_01_collision.DAE] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_residential_PortraitA_01/meshes/aws_PortraitA_01_visual.DAE] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_residential_PortraitA_01/meshes/aws_PortraitA_01_collision.DAE] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_residential_PortraitD_02/meshes/aws_PortraitD_01_visual.DAE] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_residential_PortraitD_02/meshes/aws_PortraitD_01_collision.DAE] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_residential_PortraitA_01/meshes/aws_PortraitA_01_visual.DAE] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_residential_PortraitA_01/meshes/aws_PortraitA_01_collision.DAE] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_residential_PortraitA_01/meshes/aws_PortraitA_01_visual.DAE] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_residential_PortraitA_01/meshes/aws_PortraitA_01_collision.DAE] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_residential_PortraitD_02/meshes/aws_PortraitD_01_visual.DAE] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_residential_PortraitD_02/meshes/aws_PortraitD_01_collision.DAE] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_residential_Trash_01/meshes/aws_Trash_01_visual.DAE] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_residential_Trash_01/meshes/aws_Trash_01_collision.DAE] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_residential_Trash_01/meshes/aws_Trash_01_visual.DAE] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_residential_Trash_01/meshes/aws_Trash_01_collision.DAE] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_residential_Trash_01/meshes/aws_Trash_01_visual.DAE] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_residential_Trash_01/meshes/aws_Trash_01_collision.DAE] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_residential_PortraitE_01/meshes/aws_PortraitE_01_visual.DAE] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_residential_PortraitE_01/meshes/aws_PortraitE_01_collision.DAE] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_residential_PortraitE_01/meshes/aws_PortraitE_01_visual.DAE] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_residential_PortraitE_01/meshes/aws_PortraitE_01_collision.DAE] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_residential_Carpet_01/meshes/aws_Carpet_01_visual.DAE] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_residential_Carpet_01/meshes/aws_Carpet_01_collision.DAE] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_hospital_curtain_half_open_01/meshes/aws_robomaker_hospital_curtain_half_open_01_visual.dae] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_hospital_curtain_half_open_01/meshes/aws_robomaker_hospital_curtain_half_open_01_collision.dae] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_hospital_curtain_half_open_01/meshes/aws_robomaker_hospital_curtain_half_open_01_visual.dae] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_hospital_curtain_half_open_01/meshes/aws_robomaker_hospital_curtain_half_open_01_collision.dae] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_hospital_floor_01_ceiling/meshes/aws_robomaker_hospital_floor_01_ceiling_visual.dae] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_hospital_floor_01_ceiling/meshes/aws_robomaker_hospital_floor_01_ceiling_collision.dae] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_hospital_ramp_01/meshes/aws_robomaker_hospital_ramp_01_visual.dae] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_hospital_ramp_01/meshes/aws_robomaker_hospital_ramp_01_collision.dae] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_residential_PortraitD_01/meshes/aws_PortraitD_01_visual.DAE] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_residential_PortraitD_01/meshes/aws_PortraitD_01_collision.DAE] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_residential_PortraitD_01/meshes/aws_PortraitD_01_visual.DAE] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_residential_PortraitD_01/meshes/aws_PortraitD_01_collision.DAE] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_residential_PortraitD_01/meshes/aws_PortraitD_01_visual.DAE] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_residential_PortraitD_01/meshes/aws_PortraitD_01_collision.DAE] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_residential_PortraitD_01/meshes/aws_PortraitD_01_visual.DAE] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_residential_PortraitD_01/meshes/aws_PortraitD_01_collision.DAE] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_residential_PortraitD_02/meshes/aws_PortraitD_01_visual.DAE] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_residential_PortraitD_02/meshes/aws_PortraitD_01_collision.DAE] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_residential_PortraitD_02/meshes/aws_PortraitD_01_visual.DAE] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_residential_PortraitD_02/meshes/aws_PortraitD_01_collision.DAE] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_residential_PortraitD_02/meshes/aws_PortraitD_01_visual.DAE] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_residential_PortraitD_02/meshes/aws_PortraitD_01_collision.DAE] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_residential_PortraitD_02/meshes/aws_PortraitD_01_visual.DAE] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_residential_PortraitD_02/meshes/aws_PortraitD_01_collision.DAE] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_residential_PortraitD_02/meshes/aws_PortraitD_01_visual.DAE] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_residential_PortraitD_02/meshes/aws_PortraitD_01_collision.DAE] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_residential_PortraitD_02/meshes/aws_PortraitD_01_visual.DAE] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_residential_PortraitD_02/meshes/aws_PortraitD_01_collision.DAE] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_residential_PortraitE_02/meshes/aws_PortraitE_01_visual.DAE] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_residential_PortraitE_02/meshes/aws_PortraitE_01_collision.DAE] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_residential_PortraitD_02/meshes/aws_PortraitD_01_visual.DAE] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_residential_PortraitD_02/meshes/aws_PortraitD_01_collision.DAE] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_residential_PortraitE_02/meshes/aws_PortraitE_01_visual.DAE] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_residential_PortraitE_02/meshes/aws_PortraitE_01_collision.DAE] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_residential_PortraitD_01/meshes/aws_PortraitD_01_visual.DAE] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_residential_PortraitD_01/meshes/aws_PortraitD_01_collision.DAE] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_residential_PortraitD_01/meshes/aws_PortraitD_01_visual.DAE] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_residential_PortraitD_01/meshes/aws_PortraitD_01_collision.DAE] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_residential_PortraitD_02/meshes/aws_PortraitD_01_visual.DAE] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_residential_PortraitD_02/meshes/aws_PortraitD_01_collision.DAE] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_residential_PortraitD_02/meshes/aws_PortraitD_01_visual.DAE] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_residential_PortraitD_02/meshes/aws_PortraitD_01_collision.DAE] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_residential_PortraitE_02/meshes/aws_PortraitE_01_visual.DAE] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_residential_PortraitE_02/meshes/aws_PortraitE_01_collision.DAE] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_residential_PortraitE_02/meshes/aws_PortraitE_01_visual.DAE] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_residential_PortraitE_02/meshes/aws_PortraitE_01_collision.DAE] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_residential_PortraitE_02/meshes/aws_PortraitE_01_visual.DAE] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_residential_PortraitE_02/meshes/aws_PortraitE_01_collision.DAE] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_residential_PortraitD_01/meshes/aws_PortraitD_01_visual.DAE] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_residential_PortraitD_01/meshes/aws_PortraitD_01_collision.DAE] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_residential_PortraitD_01/meshes/aws_PortraitD_01_visual.DAE] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_residential_PortraitD_01/meshes/aws_PortraitD_01_collision.DAE] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_hospital_curtain_open_01/meshes/aws_robomaker_hospital_curtain_open_01_visual.dae] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_hospital_curtain_open_01/meshes/aws_robomaker_hospital_curtain_open_01_collision.dae] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_hospital_curtain_closed_01/meshes/aws_robomaker_hospital_curtain_closed_01_visual.dae] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_hospital_curtain_closed_01/meshes/aws_robomaker_hospital_curtain_closed_01_collision.dae] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_hospital_curtain_closed_01/meshes/aws_robomaker_hospital_curtain_closed_01_visual.dae] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_hospital_curtain_closed_01/meshes/aws_robomaker_hospital_curtain_closed_01_collision.dae] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_warehouse_ClutteringC_01/meshes/aws_robomaker_warehouse_ClutteringC_01_visual.DAE] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_warehouse_ClutteringC_01/meshes/aws_robomaker_warehouse_ClutteringC_01_collision.DAE] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_warehouse_ClutteringA_01/meshes/aws_robomaker_warehouse_ClutteringA_01_visual.DAE] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_warehouse_ClutteringA_01/meshes/aws_robomaker_warehouse_ClutteringA_01_collision.DAE] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_hospital_curtain_closed_01/meshes/aws_robomaker_hospital_curtain_closed_01_visual.dae] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_hospital_curtain_closed_01/meshes/aws_robomaker_hospital_curtain_closed_01_collision.dae] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_hospital_curtain_closed_01/meshes/aws_robomaker_hospital_curtain_closed_01_visual.dae] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_hospital_curtain_closed_01/meshes/aws_robomaker_hospital_curtain_closed_01_collision.dae] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_hospital_curtain_closed_01/meshes/aws_robomaker_hospital_curtain_closed_01_visual.dae] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_hospital_curtain_closed_01/meshes/aws_robomaker_hospital_curtain_closed_01_collision.dae] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_hospital_curtain_closed_01/meshes/aws_robomaker_hospital_curtain_closed_01_visual.dae] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_hospital_curtain_closed_01/meshes/aws_robomaker_hospital_curtain_closed_01_collision.dae] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_residential_PortraitE_02/meshes/aws_PortraitE_01_visual.DAE] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_residential_PortraitE_02/meshes/aws_PortraitE_01_collision.DAE] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_residential_PortraitE_01/meshes/aws_PortraitE_01_visual.DAE] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m14[0m[1;31m: [0m[1;31mMsg: [0m[1;31mParser configurations requested resolved uris, but uri [model://aws_robomaker_residential_PortraitE_01/meshes/aws_PortraitE_01_collision.DAE] could not be resolved.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m19[0m[1;31m: [0m[1;31mMsg: [0m[1;31mA link named rack has invalid inertia.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m9[0m[1;31m: [0m[1;31mMsg: [0m[1;31mFailed to load a world.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m21[0m[1;31m: [0m[1;31mMsg: [0m[1;31mparent frame with name[create::base] specified by joint with name[create_rack] not found in model with name[turtlebot].[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m23[0m[1;31m: [0m[1;31mMsg: [0m[1;31mFrameAttachedToGraph unable to find unique frame with name [create::base] in graph.[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m21[0m[1;31m: [0m[1;31mMsg: [0m[1;31mparent frame with name[kinect::link] specified by joint with name[kinect_rack] not found in model with name[turtlebot].[0m[1;31m[0m
+[gazebo-2] [1;31m[Err] [Server.cc:86] [0m[1;31mError Code [0m[1;31m23[0m[1;31m: [0m[1;31mMsg: [0m[1;31mFrameAttachedToGraph unable to find unique frame with name [kinect::link] in graph.[0m[1;31m[0m
+[INFO] [gazebo-2]: process has finished cleanly [pid 498]
+[INFO] [launch]: process[gazebo-2] was required: shutting down launched system
+[INFO] [mission_server.py-20]: sending signal 'SIGINT' to process[mission_server.py-20]
+[INFO] [frontier_explorer.py-19]: sending signal 'SIGINT' to process[frontier_explorer.py-19]
+[INFO] [lifecycle_manager-18]: sending signal 'SIGINT' to process[lifecycle_manager-18]
+[INFO] [opennav_docking-17]: sending signal 'SIGINT' to process[opennav_docking-17]
+[INFO] [collision_monitor-16]: sending signal 'SIGINT' to process[collision_monitor-16]
+[INFO] [velocity_smoother-15]: sending signal 'SIGINT' to process[velocity_smoother-15]
+[INFO] [waypoint_follower-14]: sending signal 'SIGINT' to process[waypoint_follower-14]
+[INFO] [bt_navigator-13]: sending signal 'SIGINT' to process[bt_navigator-13]
+[INFO] [behavior_server-12]: sending signal 'SIGINT' to process[behavior_server-12]
+[INFO] [route_server-11]: sending signal 'SIGINT' to process[route_server-11]
+[INFO] [planner_server-10]: sending signal 'SIGINT' to process[planner_server-10]
+[INFO] [smoother_server-9]: sending signal 'SIGINT' to process[smoother_server-9]
+[INFO] [controller_server-8]: sending signal 'SIGINT' to process[controller_server-8]
+[INFO] [async_slam_toolbox_node-7]: sending signal 'SIGINT' to process[async_slam_toolbox_node-7]
+[INFO] [rviz2-6]: sending signal 'SIGINT' to process[rviz2-6]
+[INFO] [create-5]: sending signal 'SIGINT' to process[create-5]
+[INFO] [parameter_bridge-4]: sending signal 'SIGINT' to process[parameter_bridge-4]
+[INFO] [gazebo-3]: sending signal 'SIGINT' to process[gazebo-3]
+[INFO] [robot_state_publisher-1]: sending signal 'SIGINT' to process[robot_state_publisher-1]
+[create-5] [INFO] [1779455806.469188652] [ros_gz_sim]: Requesting list of world names.
+[frontier_explorer.py-19] Traceback (most recent call last):
+[frontier_explorer.py-19]   File "/mnt/c/Users/Hello/OneDrive/Documents/Projects/Robotics_Project/install/diff_drive_robot/lib/diff_drive_robot/frontier_explorer.py", line 309, in <module>
+[lifecycle_manager-18] [INFO] [1779455806.693295370] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[lifecycle_manager-18] [INFO] [1779455806.693366403] [lifecycle_manager_navigation]: Running Nav2 LifecycleManager rcl preshutdown (lifecycle_manager_navigation)
+[opennav_docking-17] [INFO] [1779455806.695851319] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[opennav_docking-17] [INFO] [1779455806.695961494] [docking_server]: Running Nav2 LifecycleNode rcl preshutdown (docking_server)
+[opennav_docking-17] [INFO] [1779455806.696056647] [docking_server]: Destroying bond (docking_server) to lifecycle manager.
+[collision_monitor-16] [INFO] [1779455806.699246262] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[collision_monitor-16] [INFO] [1779455806.699347333] [collision_monitor]: Running Nav2 LifecycleNode rcl preshutdown (collision_monitor)
+[collision_monitor-16] [INFO] [1779455806.699389390] [collision_monitor]: Destroying bond (collision_monitor) to lifecycle manager.
+[collision_monitor-16] [INFO] [1779455806.703257794] [collision_monitor]: Destroying
+[opennav_docking-17] [INFO] [1779455806.703335285] [docking_server]: Destroying
+[velocity_smoother-15] [INFO] [1779455806.704010936] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[velocity_smoother-15] [INFO] [1779455806.704094369] [velocity_smoother]: Running Nav2 LifecycleNode rcl preshutdown (velocity_smoother)
+[velocity_smoother-15] [INFO] [1779455806.704145848] [velocity_smoother]: Destroying bond (velocity_smoother) to lifecycle manager.
+[frontier_explorer.py-19]     main()
+[frontier_explorer.py-19]   File "/mnt/c/Users/Hello/OneDrive/Documents/Projects/Robotics_Project/install/diff_drive_robot/lib/diff_drive_robot/frontier_explorer.py", line 296, in main
+[waypoint_follower-14] [INFO] [1779455806.707817445] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[waypoint_follower-14] [INFO] [1779455806.707885821] [waypoint_follower]: Running Nav2 LifecycleNode rcl preshutdown (waypoint_follower)
+[waypoint_follower-14] [INFO] [1779455806.707939785] [waypoint_follower]: Destroying bond (waypoint_follower) to lifecycle manager.
+[velocity_smoother-15] [INFO] [1779455806.711698140] [velocity_smoother]: Destroying
+[bt_navigator-13] [INFO] [1779455806.713221425] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[bt_navigator-13] [INFO] [1779455806.713319867] [bt_navigator]: Running Nav2 LifecycleNode rcl preshutdown (bt_navigator)
+[bt_navigator-13] [INFO] [1779455806.713364229] [bt_navigator]: Destroying bond (bt_navigator) to lifecycle manager.
+[waypoint_follower-14] [INFO] [1779455806.714418225] [waypoint_follower]: Destroying
+[behavior_server-12] [INFO] [1779455806.716654833] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[behavior_server-12] [INFO] [1779455806.716794197] [behavior_server]: Running Nav2 LifecycleNode rcl preshutdown (behavior_server)
+[behavior_server-12] [INFO] [1779455806.716872854] [behavior_server]: Destroying bond (behavior_server) to lifecycle manager.
+[route_server-11] [INFO] [1779455806.720401650] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[route_server-11] [INFO] [1779455806.720545318] [route_server]: Running Nav2 LifecycleNode rcl preshutdown (route_server)
+[route_server-11] [INFO] [1779455806.720622890] [route_server]: Destroying bond (route_server) to lifecycle manager.
+[planner_server-10] [INFO] [1779455806.724417403] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[planner_server-10] [INFO] [1779455806.724554787] [planner_server]: Running Nav2 LifecycleNode rcl preshutdown (planner_server)
+[planner_server-10] [INFO] [1779455806.724624073] [planner_server]: Destroying bond (planner_server) to lifecycle manager.
+[bt_navigator-13] [INFO] [1779455806.725332118] [bt_navigator]: Destroying
+[frontier_explorer.py-19]     node = FrontierExplorer()
+[frontier_explorer.py-19]            ^^^^^^^^^^^^^^^^^^
+[frontier_explorer.py-19]   File "/mnt/c/Users/Hello/OneDrive/Documents/Projects/Robotics_Project/install/diff_drive_robot/lib/diff_drive_robot/frontier_explorer.py", line 84, in __init__
+[smoother_server-9] [INFO] [1779455806.726731245] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[smoother_server-9] [INFO] [1779455806.726807688] [smoother_server]: Running Nav2 LifecycleNode rcl preshutdown (smoother_server)
+[smoother_server-9] [INFO] [1779455806.726859410] [smoother_server]: Cleaning up
+[controller_server-8] [INFO] [1779455806.731101301] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[controller_server-8] [INFO] [1779455806.731193548] [controller_server]: Running Nav2 LifecycleNode rcl preshutdown (controller_server)
+[controller_server-8] [INFO] [1779455806.731254000] [controller_server]: Cleaning up
+[behavior_server-12] [INFO] [1779455806.732457940] [behavior_server]: Destroying
+[controller_server-8] [INFO] [1779455806.738031406] [MPPIController]: Cleaned up MPPI Controller: FollowPath
+[controller_server-8] [INFO] [1779455806.738605262] [local_costmap.local_costmap]: Cleaning up
+[async_slam_toolbox_node-7] [INFO] [1779455806.738100669] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[rviz2-6] [INFO] [1779455806.740590016] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[frontier_explorer.py-19]     self._nav_client.wait_for_server()
+[frontier_explorer.py-19]   File "/opt/ros/jazzy/lib/python3.12/site-packages/rclpy/action/client.py", line 600, in wait_for_server
+[frontier_explorer.py-19]     time.sleep(sleep_time)
+[frontier_explorer.py-19] KeyboardInterrupt
+[create-5] [INFO] [1779455806.742663193] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[route_server-11] [INFO] [1779455806.746473418] [route_server]: Destroying
+[parameter_bridge-4] [INFO] [1779455806.746785523] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[robot_state_publisher-1] [INFO] [1779455806.754794105] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[smoother_server-9] [INFO] [1779455806.895161313] [smoother_server]: Destroying bond (smoother_server) to lifecycle manager.
+[INFO] [parameter_bridge-4]: process has finished cleanly [pid 500]
+[smoother_server-9] [INFO] [1779455807.027411754] [smoother_server]: Destroying
+[INFO] [mission_server.py-20]: process has finished cleanly [pid 900]
+[INFO] [collision_monitor-16]: process has finished cleanly [pid 701]
+[INFO] [waypoint_follower-14]: process has finished cleanly [pid 699]
+[INFO] [opennav_docking-17]: process has finished cleanly [pid 702]
+[INFO] [velocity_smoother-15]: process has finished cleanly [pid 700]
+[ERROR] [frontier_explorer.py-19]: process has died [pid 885, exit code -2, cmd '/mnt/c/Users/Hello/OneDrive/Documents/Projects/Robotics_Project/install/diff_drive_robot/lib/diff_drive_robot/frontier_explorer.py --ros-args -r __node:=frontier_explorer --params-file /tmp/launch_params__69pnvn4'].
+[controller_server-8] [INFO] [1779455807.262832520] [controller_server]: Destroying bond (controller_server) to lifecycle manager.
+[INFO] [robot_state_publisher-1]: process has finished cleanly [pid 497]
+[INFO] [behavior_server-12]: process has finished cleanly [pid 697]
+[INFO] [bt_navigator-13]: process has finished cleanly [pid 698]
+[INFO] [route_server-11]: process has finished cleanly [pid 696]
+[controller_server-8] [INFO] [1779455807.334067960] [local_costmap.local_costmap]: Destroying
+[INFO] [smoother_server-9]: process has finished cleanly [pid 694]
+[controller_server-8] [INFO] [1779455807.440991426] [controller_server]: Destroying
+[INFO] [async_slam_toolbox_node-7]: process has finished cleanly [pid 673]
+[INFO] [controller_server-8]: process has finished cleanly [pid 693]
+[create-5] [INFO] [1779455811.469471973] [ros_gz_sim]: Timed out when getting world names.
+[ERROR] [create-5]: process has died [pid 502, exit code 255, cmd '/opt/ros/jazzy/lib/ros_gz_sim/create -topic robot_description -name diff_drive -x 1.5 -y 1.0 -z 0.3 -Y 0.0 --ros-args'].
+[ERROR] [lifecycle_manager-18]: process[lifecycle_manager-18] failed to terminate '5' seconds after receiving 'SIGINT', escalating to 'SIGTERM'
+[ERROR] [planner_server-10]: process[planner_server-10] failed to terminate '5' seconds after receiving 'SIGINT', escalating to 'SIGTERM'
+[ERROR] [rviz2-6]: process[rviz2-6] failed to terminate '5' seconds after receiving 'SIGINT', escalating to 'SIGTERM'
+[ERROR] [gazebo-3]: process[gazebo-3] failed to terminate '5' seconds after receiving 'SIGINT', escalating to 'SIGTERM'
+[INFO] [lifecycle_manager-18]: sending signal 'SIGTERM' to process[lifecycle_manager-18]
+[INFO] [planner_server-10]: sending signal 'SIGTERM' to process[planner_server-10]
+[INFO] [rviz2-6]: sending signal 'SIGTERM' to process[rviz2-6]
+[INFO] [gazebo-3]: sending signal 'SIGTERM' to process[gazebo-3]
+[planner_server-10] [INFO] [1779455811.694143399] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[ERROR] [gazebo-3]: process has died [pid 499, exit code -15, cmd 'ruby /opt/ros/jazzy/opt/gz_tools_vendor/bin/gz sim -g --force-version 8'].
+[INFO] [launch]: process[gazebo-3] was required: shutting down launched system
+[ERROR] [launch]: Caught exception in launch (see debug for traceback): Cannot shutdown a ROS adapter that is not running
+[planner_server-10] [INFO] [1779455812.475022319] [planner_server]: Destroying plugin GridBased of type SmacPlannerHybrid
+[planner_server-10] [FATAL] [1779455812.475191292] [planner_server]: Failed to create global planner. Exception: could not create publisher: rcl node's context is invalid, at ./src/rcl/node.c:404
+[planner_server-10] [INFO] [1779455812.475198104] [planner_server]: Cleaning up
+[planner_server-10] [ERROR] [1779455812.475216984] [global_costmap.global_costmap]: Unable to start transition 2 from current state cleaningup: Could not publish transition: publisher's context is invalid, at ./src/rcl/publisher.c:423, at ./src/rcl_lifecycle.c:368
+[planner_server-10] [ERROR] [1779455812.475295508] [planner_server]: Failed to finish transition 1. Current state is now: unconfigured (Could not publish transition: publisher's context is invalid, at ./src/rcl/publisher.c:423, at ./src/rcl_lifecycle.c:368)
+[planner_server-10] Warning: class_loader.ClassLoader: SEVERE WARNING!!! Attempting to unload library while objects created by this loader exist in the heap! You should delete your objects before attempting to unload the library or destroying the ClassLoader. The library will NOT be unloaded.
+[planner_server-10]          at line 127 in ./src/class_loader.cpp
+[planner_server-10] [INFO] [1779455812.626084357] [global_costmap.global_costmap]: Destroying
+[planner_server-10] [WARN] [1779455812.626164136] [rcl_lifecycle]: No transition matching 2 found for current state cleaningup
+[planner_server-10] [INFO] [1779455812.731903747] [planner_server]: Destroying
+[INFO] [planner_server-10]: process has finished cleanly [pid 695]
+[lifecycle_manager-18] [ERROR] [1779455814.476087430] [lifecycle_manager_navigation]: Failed to change state for node: planner_server. Exception: planner_server/get_state service client: async_send_request failed.
+[lifecycle_manager-18] [ERROR] [1779455814.476211871] [lifecycle_manager_navigation]: Failed to bring up all requested nodes. Aborting bringup.
+[lifecycle_manager-18] [INFO] [1779455814.648890442] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[lifecycle_manager-18] [INFO] [1779455814.649087153] [lifecycle_manager_navigation]: Destroying lifecycle_manager_navigation
+[INFO] [lifecycle_manager-18]: process has finished cleanly [pid 703]
+[ERROR] [rviz2-6]: process[rviz2-6] failed to terminate '10.0' seconds after receiving 'SIGTERM', escalating to 'SIGKILL'
+[INFO] [rviz2-6]: sending signal 'SIGKILL' to process[rviz2-6]
+[ERROR] [rviz2-6]: process has died [pid 504, exit code -9, cmd '/opt/ros/jazzy/lib/rviz2/rviz2 -d /mnt/c/Users/Hello/OneDrive/Documents/Projects/Robotics_Project/install/diff_drive_robot/share/diff_drive_robot/rviz/bot.rviz --ros-args'].

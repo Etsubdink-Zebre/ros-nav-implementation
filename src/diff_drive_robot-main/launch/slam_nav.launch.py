@@ -22,7 +22,7 @@ from launch.actions import (
     OpaqueFunction,
     TimerAction,
 )
-from launch.conditions import IfCondition
+from launch.conditions import IfCondition, UnlessCondition
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
@@ -79,30 +79,36 @@ def _build_runtime_actions(context, pkg_share: str):
             os.path.join(get_package_share_directory('ros_gz_sim'), 'launch', 'gz_sim.launch.py')
         ),
         launch_arguments={
-            'gz_args': f'-r -s -v1 {world_path}',
+            'gz_args': f'-r -v4 "{world_path}"',
             'on_exit_shutdown': 'true',
         }.items(),
     )
 
-    gazebo_client = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(
-            os.path.join(get_package_share_directory('ros_gz_sim'), 'launch', 'gz_sim.launch.py')
-        ),
-        launch_arguments={'gz_args': '-g'}.items(),
+    gazebo_client = GroupAction(
+        condition=UnlessCondition(LaunchConfiguration('headless')),
+        actions=[IncludeLaunchDescription(
+            PythonLaunchDescriptionSource(
+                os.path.join(get_package_share_directory('ros_gz_sim'), 'launch', 'gz_sim.launch.py')
+            ),
+            launch_arguments={'gz_args': '-g'}.items(),
+        )]
     )
 
-    spawn_robot = Node(
-        package='ros_gz_sim',
-        executable='create',
-        arguments=[
-            '-topic', 'robot_description',
-            '-name', robot_name,
-            '-x', spawn_x,
-            '-y', spawn_y,
-            '-z', spawn_z,
-            '-Y', spawn_yaw,
-        ],
-        output='screen',
+    spawn_robot = GroupAction(
+        condition=IfCondition(LaunchConfiguration('spawn_robot')),
+        actions=[Node(
+            package='ros_gz_sim',
+            executable='create',
+            arguments=[
+                '-topic', 'robot_description',
+                '-name', robot_name,
+                '-x', spawn_x,
+                '-y', spawn_y,
+                '-z', spawn_z,
+                '-Y', spawn_yaw,
+            ],
+            output='screen',
+        )]
     )
 
     ros_gz_bridge = Node(
@@ -213,6 +219,13 @@ def _build_runtime_actions(context, pkg_share: str):
         gazebo_client,
         ros_gz_bridge,
         spawn_robot,
+        # Fake laser fallback for WSL/llvmpipe (GPU lidar won't render)
+        Node(
+            package='diff_drive_robot',
+            executable='fake_laser.py',
+            name='fake_laser',
+            output='screen',
+        ),
         slam,
         nav2,
         rviz2,
@@ -236,6 +249,8 @@ def generate_launch_description():
             description='Optional full world path override (if set, world_name is ignored)',
         ),
         DeclareLaunchArgument('rviz', default_value='True', description='Launch RViz'),
+        DeclareLaunchArgument('headless', default_value='True', description='Run Gazebo headless (no GUI)'),
+        DeclareLaunchArgument('spawn_robot', default_value='True', description='Spawn robot via ros_gz_sim create (set false if embedded in world)'),
         DeclareLaunchArgument('robot_name', default_value='diff_drive', description='Gazebo robot entity name'),
         # Maze default spawn moved away from origin so robot is immediately visible.
         DeclareLaunchArgument(name='spawn_x', default_value='1.5'),

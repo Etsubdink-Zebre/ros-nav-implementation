@@ -9,11 +9,15 @@ set -e
 if [[ -z "${ROS_DISTRO:-}" ]]; then
   source /opt/ros/jazzy/setup.bash
 fi
-if [[ -f "$HOME/rosnav/install/setup.bash" ]]; then
-  source "$HOME/rosnav/install/setup.bash"
+# ---- locate this script's directory ----
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+WORKSPACE_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
+
+if [[ -f "$WORKSPACE_DIR/install/setup.bash" ]]; then
+  source "$WORKSPACE_DIR/install/setup.bash"
 else
-  echo "ERROR: ~/rosnav/install/setup.bash not found." >&2
-  echo "Build the workspace first:  cd ~/rosnav && colcon build --symlink-install" >&2
+  echo "ERROR: $WORKSPACE_DIR/install/setup.bash not found." >&2
+  echo "Build the workspace first:  cd \"$WORKSPACE_DIR\" && colcon build --symlink-install" >&2
   exit 1
 fi
 
@@ -37,13 +41,12 @@ pick() {
   done
 }
 
-# ---- locate this script's directory (for teleop.sh path) ----
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# ---- locate teleop.sh path ----
 TELEOP_SCRIPT="$SCRIPT_DIR/teleop.sh"
 
 echo
 echo "=== rosnav launcher ==="
-echo "World: maze (the only world)"
+echo "World: hospital"
 echo
 
 # ---- step 1: fleet size ----
@@ -56,11 +59,15 @@ case "$mode" in 1) explore_arg="true" ;; 2) explore_arg="false" ;; esac
 echo
 
 # ---- build the launch command ----
+HOSPITAL_DIR="$SCRIPT_DIR/src/Intelligent Autonomous Hospital Delivery-world"
+export GZ_SIM_RESOURCE_PATH="${GZ_SIM_RESOURCE_PATH}:${HOSPITAL_DIR}/models:${HOSPITAL_DIR}/fuel_models"
+world_path="${HOSPITAL_DIR}/worlds/hospital.world"
+
 case "$fleet" in
   1) launch_cmd=(ros2 launch diff_drive_robot slam_nav.launch.py
-                 world_name:=maze "explore:=$explore_arg" rviz:=True) ;;
+                 "world:=$world_path" "explore:=$explore_arg" rviz:=True) ;;
   2) launch_cmd=(ros2 launch diff_drive_robot multi_robot.launch.py
-                 world:=maze "explore:=$explore_arg" rviz:=True) ;;
+                 "world:=$world_path" "explore:=$explore_arg" rviz:=True) ;;
 esac
 
 # ---- manual mode: spawn teleop in a new Windows Terminal tab ----

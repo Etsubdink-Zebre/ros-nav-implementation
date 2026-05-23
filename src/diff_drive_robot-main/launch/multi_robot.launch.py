@@ -195,7 +195,7 @@ def _build_all(context, pkg_share: str):
         PythonLaunchDescriptionSource(
             os.path.join(ros_gz, 'launch', 'gz_sim.launch.py')),
         launch_arguments={
-            'gz_args': f'-r -s -v1 {world_path}',
+            'gz_args': f'-r -s -v1 "{world_path}"',
             'on_exit_shutdown': 'true',
         }.items()))
     if not headless:

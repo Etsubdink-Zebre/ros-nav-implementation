@@ -1,9 +1,5 @@
-# Named locations for semantic navigation.
+# Named locations for hospital delivery navigation.
 # Format:  name: [x, y, yaw_degrees]
-# Usage:
-#   fleet_manager.py goto robot1 room_a
-#   mission_server.py goto robot1 charging_dock
-#   waypoints.yaml:  waypoints: [room_a, hallway, room_b]
 
 locations:
   origin:        [ 0.0,   0.0,   0.0]
@@ -12,3 +8,10 @@ locations:
   room_c:        [ 0.0,   2.5, 180.0]
   hallway:       [ 1.25,  1.25, 45.0]
   charging_dock: [-1.0,   0.0, 180.0]
+
+  # ── Hospital Delivery Locations ──
+  supply_room:   [-8.0,   0.0,   0.0]     # Supply storage area
+  patient_room1: [ 8.0,   6.0, 180.0]     # Patient Room 101
+  patient_room2: [ 8.0,  -6.0, 180.0]     # Patient Room 102
+  nurse_station: [-8.0,   8.0,  90.0]     # Nurse station
+  pharmacy:      [ 2.0,  -8.0,   0.0]     # Pharmacy pickup

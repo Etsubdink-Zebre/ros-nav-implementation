@@ -6,7 +6,7 @@
 <material>
         <pbr>
           <metal>
-            <emissive_map>model://aws_robomaker_hospital_curtain_open_01/meshes/aws_robomaker_hospital_curtainrail_01_visual.png</emissive_map>
+            <emissive_map>model://hospital_curtain_open_01/meshes/aws_robomaker_hospital_curtainrail_01_visual.png</emissive_map>
             <roughness>0.5</roughness>
             <metalness>0.0</metalness>
           </metal>
@@ -14,14 +14,14 @@
       </material>
 	    <geometry>
           <mesh>
-            <uri>model://aws_robomaker_hospital_curtain_open_01/meshes/aws_robomaker_hospital_curtain_open_01_visual.dae</uri>
+            <uri>model://hospital_curtain_open_01/meshes/aws_robomaker_hospital_curtain_open_01_visual.dae</uri>
           </mesh>
         </geometry>
       </visual>
       <collision name="collision">
         <geometry>
           <mesh>
-            <uri>model://aws_robomaker_hospital_curtain_open_01/meshes/aws_robomaker_hospital_curtain_open_01_collision.dae</uri>
+            <uri>model://hospital_curtain_open_01/meshes/aws_robomaker_hospital_curtain_open_01_collision.dae</uri>
           </mesh>
         </geometry>
       </collision>    

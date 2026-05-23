@@ -37,7 +37,7 @@
          <update_rate>10</update_rate>
          <topic>${ns + '/scan' if ns else 'scan'}</topic>
          <gz_frame_id>${ns + '/laser_frame' if ns else 'laser_frame'}</gz_frame_id>
-         <lidar>
+         <ray>
             <scan>
                <horizontal>
                <samples>360</samples>
@@ -49,7 +49,7 @@
                <min>0.3</min>
                <max>12</max>
             </range>
-         </lidar>
+         </ray>
       </sensor>
    </gazebo>
 </robot>
