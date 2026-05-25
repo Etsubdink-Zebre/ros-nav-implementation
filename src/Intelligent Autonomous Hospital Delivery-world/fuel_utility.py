@@ -24,7 +24,7 @@ from lxml import etree as ET
 import os.path
 
 FUEL_URI = 'https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models'
-WAIT_BETWEEN_DOWNLOADS_IN_SECONDS = 5
+WAIT_BETWEEN_DOWNLOADS_IN_SECONDS = 0.5
 
 class FuelModelUtility:
 

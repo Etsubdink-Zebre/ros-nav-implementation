@@ -15,6 +15,7 @@ import os
 from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
 from launch.actions import (
+    AppendEnvironmentVariable,
     DeclareLaunchArgument,
     GroupAction,
     IncludeLaunchDescription,
@@ -40,8 +41,26 @@ def _resolve_world_path(world_name_arg: str, world_arg: str, pkg_share: str) -> 
     world_arg = world_arg.strip()
     if world_arg:
         return os.path.expanduser(world_arg)
-    world_name = os.path.splitext(os.path.basename(world_name_arg.strip() or 'maze'))[0]
+    world_name = os.path.splitext(os.path.basename(world_name_arg.strip() or 'hospital'))[0]
     return os.path.join(pkg_share, 'worlds', f'{world_name}.world')
+
+
+def _get_hospital_src(pkg_share: str) -> str:
+    """Derive the hospital source directory from the installed pkg_share path.
+
+    pkg_share = .../install/<pkg>/share/<pkg>
+    workspace root = ../../../../ (4 levels up from pkg_share)
+    hospital src  = workspace_root/src/Intelligent Autonomous Hospital Delivery-world
+    """
+    workspace_root = pkg_share
+    for _ in range(4):
+        workspace_root = os.path.dirname(workspace_root)
+    candidate = os.path.join(
+        workspace_root, 'src', 'Intelligent Autonomous Hospital Delivery-world'
+    )
+    if os.path.isdir(candidate):
+        return candidate
+    return ''
 
 
 def _resolve_map_prefix(map_prefix_arg: str, world_name: str, pkg_share: str) -> str:
@@ -208,12 +227,28 @@ def _build_runtime_actions(context, pkg_share: str):
         ]
     )
 
-    return [
+    actions_list = [
         LogInfo(msg=f'[slam_nav.launch] params={_NAV2_PARAMS}'),
         LogInfo(msg=f'[slam_nav.launch] world={world_path}'),
         LogInfo(msg=f'[slam_nav.launch] robot_name={robot_name.perform(context)}'),
         LogInfo(msg=f'[slam_nav.launch] save map with: ros2 run nav2_map_server map_saver_cli -f {map_prefix}'),
         LogInfo(msg=f'[slam_nav.launch] explore={explore.perform(context)}'),
+    ]
+
+    # Set GZ_SIM_RESOURCE_PATH so Gazebo can find hospital models from source tree
+    hospital_src = _get_hospital_src(pkg_share)
+    if hospital_src:
+        hospital_models = os.path.join(hospital_src, 'models')
+        hospital_fuel  = os.path.join(hospital_src, 'fuel_models')
+        actions_list.append(AppendEnvironmentVariable(
+            'GZ_SIM_RESOURCE_PATH',
+            f'{hospital_models}{os.pathsep}{hospital_fuel}'
+        ))
+        actions_list.append(LogInfo(msg=f'[slam_nav.launch] GZ_SIM_RESOURCE_PATH += {hospital_models}'))
+    else:
+        actions_list.append(LogInfo(msg='[slam_nav.launch] WARNING: hospital source dir not found!'))
+
+    actions_list.extend([
         rsp,
         gazebo_server,
         gazebo_client,
@@ -231,7 +266,9 @@ def _build_runtime_actions(context, pkg_share: str):
         rviz2,
         mission_server,
         frontier_node,
-    ]
+    ])
+
+    return actions_list
 
 
 def generate_launch_description():
@@ -240,8 +277,8 @@ def generate_launch_description():
     return LaunchDescription([
         DeclareLaunchArgument(
             'world_name',
-            default_value='maze',
-            description='Gazebo world name in package worlds/ (only "maze" is currently included)',
+            default_value='hospital',
+            description='Gazebo world name in package worlds/ (defaults to hospital)',
         ),
         DeclareLaunchArgument(
             'world',

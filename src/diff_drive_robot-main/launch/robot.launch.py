@@ -6,6 +6,7 @@ from ament_index_python.packages import get_package_share_directory
 from launch.substitutions import LaunchConfiguration
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.actions import (
+    AppendEnvironmentVariable,
     DeclareLaunchArgument,
     GroupAction,
     IncludeLaunchDescription,
@@ -63,6 +64,7 @@ def generate_launch_description():
 
     package_name = 'diff_drive_robot'
     pkg_share = get_package_share_directory(package_name)
+    hospital_pkg_share = get_package_share_directory('aws_robomaker_hospital_world')
     home = os.path.expanduser('~')
 
     # Launch configurations
@@ -78,7 +80,7 @@ def generate_launch_description():
     # Launch Arguments
     declare_world = DeclareLaunchArgument(
         name='world',
-        default_value=os.path.join(pkg_share, 'worlds', 'maze.world'),
+        default_value=os.path.join(hospital_pkg_share, 'worlds', 'hospital.world'),
         description='Full path to the Gazebo world file')
 
     declare_rviz = DeclareLaunchArgument(
@@ -209,7 +211,14 @@ def generate_launch_description():
     #     output='screen'
     # )
 
+    # Setup Gazebo model paths
+    set_model_path = AppendEnvironmentVariable(
+        'GZ_SIM_RESOURCE_PATH',
+        f"{os.path.join(hospital_pkg_share, 'models')}{os.pathsep}{os.path.join(hospital_pkg_share, 'fuel_models')}"
+    )
+
     return LaunchDescription([
+        set_model_path,
         # ── Declare ALL arguments first (BUG FIX: these were missing) ──
         declare_world,
         declare_rviz,
