@@ -36,13 +36,10 @@
 
   <link name="chassis">
     <visual>
-      <origin xyz="0.275 0 0.075"/>
+      <origin xyz="0.275 0 0.075" rpy="0 0 0"/>
       <geometry>
-        <box size="0.55 0.4 0.15"/>
+        <mesh filename="file:///opt/ros/jazzy/share/nav2_minimal_tb3_sim/models/turtlebot3_model/meshes/waffle_base.dae" scale="2.0 1.5 1.5"/>
       </geometry>
-      <material name="chassis_material">
-        <color rgba="0.40 0.23 0.72 1.0"/>
-      </material>
     </visual>
     <collision>
       <origin xyz="0.275 0 0.075"/>
@@ -65,12 +62,10 @@
 
   <link name="left_wheel">
     <visual>
+      <origin xyz="0 0 0" rpy="1.5707 0 0"/>
       <geometry>
-        <cylinder radius="0.075" length="0.04"/>
+        <mesh filename="file:///opt/ros/jazzy/share/nav2_minimal_tb3_sim/models/turtlebot3_model/meshes/tire.dae" scale="2.5 2.5 2.5"/>
       </geometry>
-      <material name="wheel_material">
-        <color rgba="0 0 0 1.0"/>
-      </material>
     </visual>
     <collision>
       <geometry>
@@ -91,12 +86,10 @@
 
   <link name="right_wheel">
     <visual>
+      <origin xyz="0 0 0" rpy="1.5707 0 0"/>
       <geometry>
-        <cylinder radius="0.075" length="0.04"/>
+        <mesh filename="file:///opt/ros/jazzy/share/nav2_minimal_tb3_sim/models/turtlebot3_model/meshes/tire.dae" scale="2.5 2.5 2.5"/>
       </geometry>
-      <material name="wheel_material">
-        <color rgba="0 0 0 1.0"/>
-      </material>
     </visual>
     <collision>
       <geometry>
@@ -118,12 +111,10 @@
 
   <link name="left_front_wheel">
     <visual>
+      <origin xyz="0 0 0" rpy="1.5707 0 0"/>
       <geometry>
-        <cylinder radius="0.075" length="0.04"/>
+        <mesh filename="file:///opt/ros/jazzy/share/nav2_minimal_tb3_sim/models/turtlebot3_model/meshes/tire.dae" scale="2.5 2.5 2.5"/>
       </geometry>
-      <material name="wheel_material">
-        <color rgba="0 0 0 1.0"/>
-      </material>
     </visual>
     <collision>
       <geometry>
@@ -144,12 +135,10 @@
 
   <link name="right_front_wheel">
     <visual>
+      <origin xyz="0 0 0" rpy="1.5707 0 0"/>
       <geometry>
-        <cylinder radius="0.075" length="0.04"/>
+        <mesh filename="file:///opt/ros/jazzy/share/nav2_minimal_tb3_sim/models/turtlebot3_model/meshes/tire.dae" scale="2.5 2.5 2.5"/>
       </geometry>
-      <material name="wheel_material">
-        <color rgba="0 0 0 1.0"/>
-      </material>
     </visual>
     <collision>
       <geometry>
