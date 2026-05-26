@@ -52,7 +52,7 @@
     <visual>
       <origin xyz="-0.064 0 0.0" rpy="0 0 0"/>
       <geometry>
-        <mesh filename="package://nav2_minimal_tb3_sim/models/turtlebot3_model/meshes/waffle_base.dae" scale="1.0 1.0 1.0"/>
+        <mesh filename="file://$(find aws_robomaker_hospital_world)/models/turtlebot3/turtlebot3_description/meshes/bases/waffle_base.stl" scale="0.001 0.001 0.001"/>
       </geometry>
       <material name="light_black"/>
     </visual>
@@ -82,7 +82,7 @@
     <visual>
       <origin xyz="0 0 0" rpy="1.5708 0 0"/>
       <geometry>
-        <mesh filename="package://nav2_minimal_tb3_sim/models/turtlebot3_model/meshes/tire.dae" scale="1.0 1.0 1.0"/>
+        <mesh filename="file://$(find aws_robomaker_hospital_world)/models/turtlebot3/turtlebot3_description/meshes/wheels/left_tire.stl" scale="0.001 0.001 0.001"/>
       </geometry>
       <material name="dark"/>
     </visual>
@@ -110,7 +110,7 @@
     <visual>
       <origin xyz="0 0 0" rpy="1.5708 0 0"/>
       <geometry>
-        <mesh filename="package://nav2_minimal_tb3_sim/models/turtlebot3_model/meshes/tire.dae" scale="1.0 1.0 1.0"/>
+        <mesh filename="file://$(find aws_robomaker_hospital_world)/models/turtlebot3/turtlebot3_description/meshes/wheels/right_tire.stl" scale="0.001 0.001 0.001"/>
       </geometry>
       <material name="dark"/>
     </visual>
@@ -174,7 +174,7 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
-        <mesh filename="package://nav2_minimal_tb3_sim/models/turtlebot3_model/meshes/lds.dae" scale="1.0 1.0 1.0"/>
+        <mesh filename="file://$(find aws_robomaker_hospital_world)/models/turtlebot3/turtlebot3_description/meshes/sensors/lds.stl" scale="0.001 0.001 0.001"/>
       </geometry>
       <material name="dark"/>
     </visual>
@@ -201,7 +201,7 @@
     <visual>
       <origin xyz="0 0 0" rpy="1.5708 0 1.5708"/>
       <geometry>
-        <mesh filename="package://nav2_minimal_tb3_sim/models/turtlebot3_model/meshes/r200.dae" scale="1.0 1.0 1.0"/>
+        <mesh filename="file://$(find aws_robomaker_hospital_world)/models/turtlebot3/turtlebot3_description/meshes/sensors/r200.dae" scale="1.0 1.0 1.0"/>
       </geometry>
     </visual>
     <collision>
@@ -251,8 +251,8 @@
       <min_angular_acceleration>-2.0</min_angular_acceleration>
       <max_linear_velocity>0.26</max_linear_velocity>
       <max_angular_velocity>1.82</max_angular_velocity>
-      <odom_topic>odom</odom_topic>
-      <tf_topic>tf</tf_topic>
+      <odom_topic>/odom</odom_topic>
+      <tf_topic>/tf</tf_topic>
       <frame_id>odom</frame_id>
       <child_frame_id>base_footprint</child_frame_id>
       <odom_publish_frequency>30</odom_publish_frequency>
@@ -263,11 +263,14 @@
             name="gz::sim::systems::JointStatePublisher">
       <joint_name>wheel_left_joint</joint_name>
       <joint_name>wheel_right_joint</joint_name>
-      <topic>joint_states</topic>
+      <joint_name>caster_back_right_joint</joint_name>
+      <joint_name>caster_back_left_joint</joint_name>
+      <topic>/joint_states</topic>
     </plugin>
   </gazebo>
 
-  <!-- Lidar sensor -->
+  <!-- Lidar sensor — DISABLED on WSL (ogre2 segfaults without GPU).
+       Scan data is provided by fake_laser.py instead.
   <gazebo reference="base_scan">
     <sensor name="hls_lfcd_lds" type="gpu_lidar">
       <always_on>true</always_on>
@@ -297,6 +300,7 @@
       </lidar>
     </sensor>
   </gazebo>
+  -->
 
   <!-- IMU sensor -->
   <gazebo reference="imu_link">
@@ -320,7 +324,7 @@
     </sensor>
   </gazebo>
 
-  <!-- Camera sensor -->
+  <!-- Camera sensor — DISABLED on WSL (ogre2 segfaults without GPU).
   <gazebo reference="camera_rgb_frame">
     <sensor name="camera" type="camera">
       <always_on>true</always_on>
@@ -341,13 +345,17 @@
       </camera>
     </sensor>
   </gazebo>
+  -->
 
-  <!-- Sensor system plugin (required for all sensors in Harmonic) -->
+  <!-- Sensor system plugins — ogre2 sensors-system DISABLED on WSL (segfaults).
+       IMU and Contact plugins kept (they don't need GPU rendering). -->
   <gazebo>
+    <!-- gz-sim-sensors-system DISABLED: requires ogre2 which segfaults on WSL/llvmpipe
     <plugin filename="gz-sim-sensors-system"
             name="gz::sim::systems::Sensors">
       <render_engine>ogre2</render_engine>
     </plugin>
+    -->
     <plugin filename="gz-sim-imu-system"
             name="gz::sim::systems::Imu"/>
     <plugin filename="gz-sim-contact-system"

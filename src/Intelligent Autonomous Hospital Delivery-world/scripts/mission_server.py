@@ -80,11 +80,11 @@ def _locations_path() -> str:
     try:
         from ament_index_python.packages import get_package_share_directory
         return os.path.join(
-            get_package_share_directory('diff_drive_robot'), 'config', 'locations.yaml')
+            get_package_share_directory('aws_robomaker_hospital_world'), 'config', 'locations.yaml')
     except Exception:
         return os.path.join(
             os.path.expanduser('~'), 'rosnav', 'src',
-            'diff_drive_robot-main', 'config', 'locations.yaml')
+            'aws_robomaker_hospital_world', 'config', 'locations.yaml')
 
 
 def _load_locations(path: str = '') -> dict:
@@ -422,8 +422,6 @@ def _status(node: Node, robot_filter: str = ''):
         received[robot or '/'] = data
 
     node.create_subscription(String, '/mission/state', _cb, 10)
-    spin = threading.Thread(target=lambda: rclpy.spin(node), daemon=True)
-    spin.start()
     deadline = time.time() + 3.0
     while not received and time.time() < deadline:
         time.sleep(0.05)

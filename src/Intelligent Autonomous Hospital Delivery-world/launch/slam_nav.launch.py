@@ -107,7 +107,7 @@ def _build_runtime_actions(context, pkg_share: str):
             os.path.join(get_package_share_directory('ros_gz_sim'), 'launch', 'gz_sim.launch.py')
         ),
         launch_arguments={
-            'gz_args': f'-r -v4 "{world_path}"',
+            'gz_args': f'-r -s -v4 --headless-rendering "{world_path}"',
             'on_exit_shutdown': 'true',
         }.items(),
     )
@@ -130,6 +130,7 @@ def _build_runtime_actions(context, pkg_share: str):
             arguments=[
                 '-topic', 'robot_description',
                 '-name', robot_name,
+                '-world', world_name,
                 '-x', spawn_x,
                 '-y', spawn_y,
                 '-z', spawn_z,
@@ -150,7 +151,7 @@ def _build_runtime_actions(context, pkg_share: str):
     )
 
     slam = TimerAction(
-        period=5.0,
+        period=20.0,
         actions=[
             IncludeLaunchDescription(
                 PythonLaunchDescriptionSource(
@@ -174,12 +175,12 @@ def _build_runtime_actions(context, pkg_share: str):
     import re as _re
     with open(_raw_params) as _f:
         _patched = _re.sub(r'replace_with_pkg_share', pkg_share.replace('\\', '/'), _f.read())
-    _params_file = f'/tmp/diff_drive_nav2_patched_{os.getpid()}.yaml'
+    _params_file = f'/tmp/hospital_robot_nav2_patched_{os.getpid()}.yaml'
     with open(_params_file, 'w') as _f:
         _f.write(_patched)
 
     nav2 = TimerAction(
-        period=8.0,
+        period=45.0,
         actions=[
             IncludeLaunchDescription(
                 PythonLaunchDescriptionSource(
@@ -191,6 +192,7 @@ def _build_runtime_actions(context, pkg_share: str):
                 ),
                 launch_arguments={
                     'use_sim_time': 'true',
+                    'use_slam': 'True',
                     'params_file': _params_file,
                 }.items(),
             )
@@ -208,7 +210,7 @@ def _build_runtime_actions(context, pkg_share: str):
 
     # ── Mission Layer: Mission Server ──────────────────────────────────────
     mission_server = TimerAction(
-        period=15.0,
+        period=60.0,
         actions=[Node(
             package='aws_robomaker_hospital_world',
             executable='mission_server.py',
@@ -223,7 +225,7 @@ def _build_runtime_actions(context, pkg_share: str):
         actions=[
             LogInfo(msg="[slam_nav] Auto-exploration ENABLED. Starting frontier_explorer in 12s..."),
             TimerAction(
-                period=12.0,
+                period=70.0,
                 actions=[Node(
                     package='aws_robomaker_hospital_world',
                     executable='frontier_explorer.py',
@@ -244,18 +246,82 @@ def _build_runtime_actions(context, pkg_share: str):
         LogInfo(msg=f'[slam_nav.launch] explore={explore.perform(context)}'),
     ]
 
-    # Set GZ_SIM_RESOURCE_PATH so Gazebo can find hospital models from source tree
+    # Set GZ_SIM_RESOURCE_PATH so Gazebo can find hospital models and turtlebot3 meshes
     hospital_src = _get_hospital_src(pkg_share)
+    try:
+        tb3_desc_share = get_package_share_directory('turtlebot3_description')
+        # We need the parent directory of turtlebot3_description so 'package://turtlebot3_description' works
+        tb3_ws_share = os.path.dirname(tb3_desc_share)
+    except Exception:
+        tb3_ws_share = ''
+
     if hospital_src:
         hospital_models = os.path.join(hospital_src, 'models')
         hospital_fuel  = os.path.join(hospital_src, 'fuel_models')
+        paths_to_add = f'{hospital_models}{os.pathsep}{hospital_fuel}'
+        if tb3_ws_share:
+            paths_to_add += f'{os.pathsep}{tb3_ws_share}'
+        
         actions_list.append(AppendEnvironmentVariable(
             'GZ_SIM_RESOURCE_PATH',
-            f'{hospital_models}{os.pathsep}{hospital_fuel}'
+            paths_to_add
         ))
-        actions_list.append(LogInfo(msg=f'[slam_nav.launch] GZ_SIM_RESOURCE_PATH += {hospital_models}'))
+        actions_list.append(LogInfo(msg=f'[slam_nav.launch] GZ_SIM_RESOURCE_PATH += {paths_to_add}'))
     else:
         actions_list.append(LogInfo(msg='[slam_nav.launch] WARNING: hospital source dir not found!'))
+
+    # ── Velocity Smoother (jerk-limited cmd_vel pipeline) ─────────────────
+    #   controller_server → /cmd_vel → velocity_smoother → /cmd_vel_smoothed
+    velocity_smoother = TimerAction(
+        period=50.0,
+        actions=[Node(
+            package='nav2_velocity_smoother',
+            executable='velocity_smoother',
+            name='velocity_smoother',
+            output='screen',
+            parameters=[_params_file],
+            remappings=[
+                ('cmd_vel',       'cmd_vel_nav'),
+                ('cmd_vel_smoothed', 'cmd_vel_smoothed'),
+                ('odom',          'odom'),
+            ],
+        )]
+    )
+
+    # ── Collision Monitor (safety layer after velocity smoother) ──────────
+    #   /cmd_vel_smoothed → collision_monitor → /cmd_vel  (final output)
+    collision_monitor = TimerAction(
+        period=50.0,
+        actions=[Node(
+            package='nav2_collision_monitor',
+            executable='collision_monitor',
+            name='collision_monitor',
+            output='screen',
+            parameters=[_params_file],
+        )]
+    )
+
+    # ── Task Allocator (Hungarian assignment daemon) ───────────────────────
+    task_allocator = TimerAction(
+        period=60.0,
+        actions=[Node(
+            package='aws_robomaker_hospital_world',
+            executable='task_allocator.py',
+            name='task_allocator',
+            output='screen',
+        )]
+    )
+
+    # ── Hermes Agent (top-level delivery orchestrator) ──────────────────────
+    hermes_agent = TimerAction(
+        period=65.0,
+        actions=[Node(
+            package='aws_robomaker_hospital_world',
+            executable='hermes_agent.py',
+            name='hermes_agent',
+            output='screen',
+        )]
+    )
 
     actions_list.extend([
         rsp,
@@ -272,8 +338,12 @@ def _build_runtime_actions(context, pkg_share: str):
         ),
         slam,
         nav2,
+        velocity_smoother,
+        collision_monitor,
         rviz2,
         mission_server,
+        task_allocator,
+        hermes_agent,
         frontier_node,
     ])
 

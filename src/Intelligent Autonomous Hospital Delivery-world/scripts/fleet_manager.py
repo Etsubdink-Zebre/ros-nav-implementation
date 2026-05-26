@@ -70,7 +70,7 @@ except ImportError:
 LINEAR_SPEED  = 0.22
 ANGULAR_SPEED = 1.0
 STOP_TIMEOUT  = 0.3
-PKG = 'diff_drive_robot'
+PKG = 'aws_robomaker_hospital_world'
 
 
 # ── Location helpers ──────────────────────────────────────────────────────────
@@ -83,7 +83,7 @@ def _load_locations() -> dict:
         share = get_package_share_directory(PKG)
     except Exception:
         share = os.path.join(
-            os.path.expanduser('~'), 'rosnav', 'src', 'diff_drive_robot-main')
+            os.path.expanduser('~'), 'rosnav', 'src', 'aws_robomaker_hospital_world')
     candidates = [
         os.path.join(share, 'config', 'locations.yaml'),
         os.path.join(os.path.expanduser('~'), 'rosnav', 'locations.yaml'),

@@ -8,8 +8,8 @@
     medicine delivery in an AWS RoboMaker hospital environment.
   </description>
   <license>Apache 2.0</license>
-  <author email="ros-contributions@amazon.com">AWS RoboMaker</author>
-  <maintainer email="ros-contributions@amazon.com">AWS RoboMaker</maintainer>
+  <author email="etsubdinkzebre09@gmail.com">etsubit6</author>
+  <maintainer email="etsubdinkzebre09@gmail.com">etsubit6</maintainer>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
 

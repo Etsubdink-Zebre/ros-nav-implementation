@@ -9,22 +9,23 @@ find_package(ament_cmake REQUIRED)
 
 install(
   PROGRAMS
+    scripts/hermes_agent.py
+    scripts/mission_server.py
+    scripts/task_allocator.py
+    scripts/fleet_manager.py
+    scripts/fleet_health.py
+    scripts/frontier_explorer.py
+    scripts/frontier_coordinator.py
     scripts/navigation.py
     scripts/path_planning.py
     scripts/waypoint_nav.py
-    scripts/frontier_explorer.py
     scripts/check_odometry.py
     scripts/reset_pose.py
     scripts/multi_teleop.py
-    scripts/fleet_manager.py
     scripts/fleet_gui.py
     scripts/collision_monitor.py
-    scripts/mission_server.py
     scripts/coverage_planner.py
-    scripts/task_allocator.py
     scripts/obstacle_tracker.py
-    scripts/fleet_health.py
-    scripts/frontier_coordinator.py
     scripts/priority_collision_avoidance.py
     scripts/deadlock_recovery.py
     scripts/fake_laser.py

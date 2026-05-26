@@ -49,7 +49,7 @@ STOP_TIMEOUT  = 0.3    # s without input → publish zero velocity
 # Gazebo spawn settings for dynamic robot addition
 SPAWN_Z   = 0.3
 SPAWN_YAW = 0.0
-PKG       = 'diff_drive_robot'
+PKG       = 'aws_robomaker_hospital_world'
 
 
 def _get_char():

@@ -19,7 +19,7 @@ class FakeLaser(Node):
         self.declare_parameter('angle_max', 3.14)
         self.declare_parameter('samples', 360)
         self.declare_parameter('rate', 10.0)
-        self.declare_parameter('frame_id', 'laser_frame')
+        self.declare_parameter('frame_id', 'base_scan')
 
         self.pub = self.create_publisher(LaserScan, '/scan', 10)
         period = 1.0 / self.get_parameter('rate').value
@@ -55,7 +55,10 @@ def main():
         pass
     finally:
         node.destroy_node()
-        rclpy.shutdown()
+        try:
+            rclpy.shutdown()
+        except Exception:
+            pass
 
 
 if __name__ == '__main__':

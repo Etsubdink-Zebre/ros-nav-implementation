@@ -13,7 +13,7 @@ amcl:
     alpha3: 0.2
     alpha4: 0.2
     alpha5: 0.2
-    base_frame_id: "ROBOT_NS/base_link"
+    base_frame_id: "ROBOT_NS/base_footprint"
     global_frame_id: "map"
     odom_frame_id: "ROBOT_NS/odom"
     beam_skip_distance: 0.5
@@ -36,7 +36,7 @@ amcl:
     robot_model_type: "nav2_amcl::DifferentialMotionModel"
     save_pose_rate: 0.5
     sigma_hit: 0.2
-    tf_broadcast: true
+    tf_broadcast: false
     transform_tolerance: 1.0
     update_min_a: 0.2
     update_min_d: 0.25
@@ -304,7 +304,7 @@ velocity_smoother:
 
 collision_monitor:
   ros__parameters:
-    base_frame_id: "ROBOT_NS/base_link"
+    base_frame_id: "ROBOT_NS/base_footprint"
     odom_frame_id: "ROBOT_NS/odom"
     cmd_vel_in_topic: "cmd_vel_smoothed"
     cmd_vel_out_topic: "cmd_vel"

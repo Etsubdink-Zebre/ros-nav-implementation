@@ -13,7 +13,7 @@ slam_toolbox:
     # provides the shared /map for all robots to localise against.
     odom_frame: robot1/odom
     map_frame: map
-    base_frame: robot1/base_link
+    base_frame: robot1/base_footprint
     scan_topic: /robot1/scan     # absolute topic for robot1's 2D lidar
     use_map_saver: true
     mode: mapping

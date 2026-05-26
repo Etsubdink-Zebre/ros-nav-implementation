@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <sdf version="1.8">
-  <world name="hospital_world">
+  <world name="hospital">
     <gravity>0 0 -9.8</gravity>
     <physics name="default_physics" type="ode">
       <max_step_size>0.001</max_step_size>

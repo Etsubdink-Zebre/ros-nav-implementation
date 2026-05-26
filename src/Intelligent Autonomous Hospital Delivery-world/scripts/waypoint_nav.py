@@ -57,10 +57,10 @@ DEFAULT_WAYPOINTS = [
 def _pkg_share() -> str:
     try:
         from ament_index_python.packages import get_package_share_directory
-        return get_package_share_directory('diff_drive_robot')
+        return get_package_share_directory('aws_robomaker_hospital_world')
     except Exception:
         return os.path.join(
-            os.path.expanduser('~'), 'rosnav', 'src', 'diff_drive_robot-main')
+            os.path.expanduser('~'), 'rosnav', 'src', 'aws_robomaker_hospital_world')
 
 
 def _default_waypoints_path() -> str:

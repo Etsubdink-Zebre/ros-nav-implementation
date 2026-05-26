@@ -32,7 +32,7 @@ from geometry_msgs.msg import Twist, PoseStamped
 from nav_msgs.msg import OccupancyGrid
 from nav2_msgs.action import NavigateToPose
 
-PKG = 'diff_drive_robot'
+PKG = 'aws_robomaker_hospital_world'
 REFRESH_MS = 2000     # robot list refresh interval
 MAP_W = 400           # canvas width in pixels
 MAP_H = 400           # canvas height in pixels
@@ -448,8 +448,8 @@ class FleetGUI:
     def _save_map_dialog(self):
         path = simpledialog.askstring(
             'Save Map',
-            'Save prefix (e.g. src/diff_drive_robot-main/maps/map_maze):',
-            initialvalue='src/diff_drive_robot-main/maps/map_fleet')
+            'Save prefix (e.g. src/aws_robomaker_hospital_world/maps/map_maze):',
+            initialvalue='src/aws_robomaker_hospital_world/maps/map_fleet')
         if not path:
             return
         self._status_var.set(f'Saving map to {path} …')
