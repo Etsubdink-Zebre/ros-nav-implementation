@@ -9,10 +9,10 @@ from launch.substitutions import LaunchConfiguration, PathJoinSubstitution, Comm
 def generate_launch_description():
 
     # Package name
-    package_name = FindPackageShare("diff_drive_robot")
+    package_name = FindPackageShare("aws_robomaker_hospital_world")
 
     # Default robot description if none is specified
-    urdf_path = PathJoinSubstitution([package_name, "urdf", "turtlebot3_waffle_gz.urdf.xacro"])
+    urdf_path = PathJoinSubstitution([package_name, "models", "turtlebot3_waffle_gz.urdf.xacro"])
 
     # Launch configurations
     urdf = LaunchConfiguration('urdf')

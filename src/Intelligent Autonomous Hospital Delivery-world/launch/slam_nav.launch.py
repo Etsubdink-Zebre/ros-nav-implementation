@@ -42,6 +42,15 @@ def _resolve_world_path(world_name_arg: str, world_arg: str, pkg_share: str) -> 
     if world_arg:
         return os.path.expanduser(world_arg)
     world_name = os.path.splitext(os.path.basename(world_name_arg.strip() or 'hospital'))[0]
+
+    # First check the hospital source directory for world files
+    hospital_src = _get_hospital_src(pkg_share)
+    if hospital_src:
+        hospital_world = os.path.join(hospital_src, 'worlds', f'{world_name}.world')
+        if os.path.isfile(hospital_world):
+            return hospital_world
+
+    # Fallback to package worlds/ (e.g. maze.world)
     return os.path.join(pkg_share, 'worlds', f'{world_name}.world')
 
 
@@ -89,7 +98,7 @@ def _build_runtime_actions(context, pkg_share: str):
         PythonLaunchDescriptionSource(os.path.join(pkg_share, 'launch', 'rsp.launch.py')),
         launch_arguments={
             'use_sim_time': 'true',
-            'urdf': os.path.join(pkg_share, 'urdf', 'turtlebot3_waffle_gz.urdf.xacro'),
+            'urdf': os.path.join(pkg_share, 'models', 'turtlebot3_waffle_gz.urdf.xacro'),
         }.items(),
     )
 
@@ -201,7 +210,7 @@ def _build_runtime_actions(context, pkg_share: str):
     mission_server = TimerAction(
         period=15.0,
         actions=[Node(
-            package='diff_drive_robot',
+            package='aws_robomaker_hospital_world',
             executable='mission_server.py',
             name='mission_server',
             output='screen',
@@ -216,7 +225,7 @@ def _build_runtime_actions(context, pkg_share: str):
             TimerAction(
                 period=12.0,
                 actions=[Node(
-                    package='diff_drive_robot',
+                    package='aws_robomaker_hospital_world',
                     executable='frontier_explorer.py',
                     name='frontier_explorer',
                     output='screen',
@@ -256,7 +265,7 @@ def _build_runtime_actions(context, pkg_share: str):
         spawn_robot,
         # Fake laser fallback for WSL/llvmpipe (GPU lidar won't render)
         Node(
-            package='diff_drive_robot',
+            package='aws_robomaker_hospital_world',
             executable='fake_laser.py',
             name='fake_laser',
             output='screen',
@@ -272,7 +281,7 @@ def _build_runtime_actions(context, pkg_share: str):
 
 
 def generate_launch_description():
-    pkg_share = get_package_share_directory('diff_drive_robot')
+    pkg_share = get_package_share_directory('aws_robomaker_hospital_world')
 
     return LaunchDescription([
         DeclareLaunchArgument(
@@ -286,13 +295,13 @@ def generate_launch_description():
             description='Optional full world path override (if set, world_name is ignored)',
         ),
         DeclareLaunchArgument('rviz', default_value='True', description='Launch RViz'),
-        DeclareLaunchArgument('headless', default_value='True', description='Run Gazebo headless (no GUI)'),
+        DeclareLaunchArgument('headless', default_value='False', description='Run Gazebo headless (no GUI)'),
         DeclareLaunchArgument('spawn_robot', default_value='True', description='Spawn robot via ros_gz_sim create (set false if embedded in world)'),
         DeclareLaunchArgument('robot_name', default_value='diff_drive', description='Gazebo robot entity name'),
-        # Maze default spawn moved away from origin so robot is immediately visible.
-        DeclareLaunchArgument(name='spawn_x', default_value='-7.0'),
-        DeclareLaunchArgument(name='spawn_y', default_value='7.0'),
-        DeclareLaunchArgument(name='spawn_z', default_value='0.3'),
+        # Reception area — near the nurse station desk (blue circled area).
+        DeclareLaunchArgument(name='spawn_x', default_value='-2.0'),
+        DeclareLaunchArgument(name='spawn_y', default_value='3.0'),
+        DeclareLaunchArgument(name='spawn_z', default_value='0.1'),
         DeclareLaunchArgument(name='spawn_yaw', default_value='0.0'),
         DeclareLaunchArgument(
             name='map_prefix',

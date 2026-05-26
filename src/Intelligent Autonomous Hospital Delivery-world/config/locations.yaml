@@ -13,6 +13,6 @@ locations:
   supply_room:   [-8.0,   0.0,   0.0]     # Supply storage area
   patient_room1: [ 8.0,   6.0, 180.0]     # Patient Room 101
   patient_room2: [ 8.0,  -6.0, 180.0]     # Patient Room 102
-  nurse_station: [-8.0,   8.0,  90.0]     # Nurse station / Reception center
-  reception:     [-8.0,   8.0,  90.0]     # Alias for nurse_station (reception center)
+  nurse_station: [-2.0,   3.0,  90.0]     # Nurse station / Reception center
+  reception:     [-2.0,   3.0,  90.0]     # Alias for nurse_station (reception center)
   pharmacy:      [ 2.0,  -8.0,   0.0]     # Pharmacy pickup
