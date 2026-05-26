@@ -46,20 +46,20 @@ def _resolve_world_path(world_name_arg: str, world_arg: str, pkg_share: str) -> 
 
 
 def _get_hospital_src(pkg_share: str) -> str:
-    """Derive the hospital source directory from the installed pkg_share path.
-
-    pkg_share = .../install/<pkg>/share/<pkg>
-    workspace root = ../../../../ (4 levels up from pkg_share)
-    hospital src  = workspace_root/src/Intelligent Autonomous Hospital Delivery-world
-    """
+    """Derive the hospital source directory from the installed pkg_share path."""
     workspace_root = pkg_share
     for _ in range(4):
         workspace_root = os.path.dirname(workspace_root)
-    candidate = os.path.join(
-        workspace_root, 'src', 'Intelligent Autonomous Hospital Delivery-world'
-    )
-    if os.path.isdir(candidate):
-        return candidate
+        
+    candidates = [
+        os.path.join(workspace_root, 'ros-nav-implementation', 'src', 'Intelligent Autonomous Hospital Delivery-world'),
+        os.path.join(workspace_root, 'src', 'Intelligent Autonomous Hospital Delivery-world')
+    ]
+    
+    for candidate in candidates:
+        if os.path.isdir(candidate):
+            return candidate
+            
     return ''
 
 
@@ -89,7 +89,7 @@ def _build_runtime_actions(context, pkg_share: str):
         PythonLaunchDescriptionSource(os.path.join(pkg_share, 'launch', 'rsp.launch.py')),
         launch_arguments={
             'use_sim_time': 'true',
-            'urdf': os.path.join(pkg_share, 'urdf', 'robot.urdf.xacro'),
+            'urdf': os.path.join(pkg_share, 'urdf', 'turtlebot3_waffle_gz.urdf.xacro'),
         }.items(),
     )
 
@@ -290,8 +290,8 @@ def generate_launch_description():
         DeclareLaunchArgument('spawn_robot', default_value='True', description='Spawn robot via ros_gz_sim create (set false if embedded in world)'),
         DeclareLaunchArgument('robot_name', default_value='diff_drive', description='Gazebo robot entity name'),
         # Maze default spawn moved away from origin so robot is immediately visible.
-        DeclareLaunchArgument(name='spawn_x', default_value='1.5'),
-        DeclareLaunchArgument(name='spawn_y', default_value='1.0'),
+        DeclareLaunchArgument(name='spawn_x', default_value='-7.0'),
+        DeclareLaunchArgument(name='spawn_y', default_value='7.0'),
         DeclareLaunchArgument(name='spawn_z', default_value='0.3'),
         DeclareLaunchArgument(name='spawn_yaw', default_value='0.0'),
         DeclareLaunchArgument(

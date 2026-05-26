@@ -12,7 +12,7 @@ def generate_launch_description():
     package_name = FindPackageShare("diff_drive_robot")
 
     # Default robot description if none is specified
-    urdf_path = PathJoinSubstitution([package_name, "urdf", "robot.urdf.xacro"])
+    urdf_path = PathJoinSubstitution([package_name, "urdf", "turtlebot3_waffle_gz.urdf.xacro"])
 
     # Launch configurations
     urdf = LaunchConfiguration('urdf')

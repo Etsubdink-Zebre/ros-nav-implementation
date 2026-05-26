@@ -11,7 +11,8 @@ from sensor_msgs.msg import LaserScan
 class FakeLaser(Node):
     def __init__(self):
         super().__init__('fake_laser')
-        self.declare_parameter('use_sim_time', True)
+        if not self.has_parameter('use_sim_time'):
+            self.declare_parameter('use_sim_time', True)
         self.declare_parameter('range_max', 12.0)
         self.declare_parameter('range_min', 0.3)
         self.declare_parameter('angle_min', -3.14)

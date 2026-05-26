@@ -33,8 +33,13 @@ install(
     scripts/fake_laser.py
   DESTINATION lib/${PROJECT_NAME}
 )
-install(
-  DIRECTORY launch urdf config worlds rviz maps
+install(DIRECTORY
+  launch
+  urdf
+  worlds
+  maps
+  config
+  rviz
   DESTINATION share/${PROJECT_NAME}
 )
 if(BUILD_TESTING)
