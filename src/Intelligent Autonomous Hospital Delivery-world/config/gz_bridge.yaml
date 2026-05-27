@@ -32,11 +32,7 @@
   gz_type_name: "gz.msgs.IMU"
   direction: GZ_TO_ROS
 
-- ros_topic_name: "/scan"
-  gz_topic_name: "/scan"
-  ros_type_name: "sensor_msgs/msg/LaserScan"
-  gz_type_name: "gz.msgs.LaserScan"
-  direction: GZ_TO_ROS
+# /scan bridge REMOVED — scan is generated natively in ROS 2 by fake_laser.py
 
 - ros_topic_name: "/tf"
   gz_topic_name: "/tf"

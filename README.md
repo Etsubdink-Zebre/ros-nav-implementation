@@ -46,6 +46,7 @@ This single command launches:
 - RViz2 visualization
 
 > **Note:** Wait ~65 seconds for all nodes to initialize. You will see `Hermes Agent ready` in the terminal when the system is fully operational.
+> **Important:** In RViz, look at the "Navigation 2" panel in the bottom left corner and click the **`Startup`** button to activate the navigation system.
 
 ### Terminal 2: Send a delivery mission
 

@@ -304,6 +304,7 @@ def _build_runtime_actions(context, pkg_share: str):
             executable='fake_laser.py',
             name='fake_laser',
             output='screen',
+            parameters=[{'use_sim_time': True}],
         ),
         slam,
         nav2,
