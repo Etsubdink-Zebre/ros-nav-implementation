@@ -270,37 +270,6 @@ def _build_runtime_actions(context, pkg_share: str):
     else:
         actions_list.append(LogInfo(msg='[slam_nav.launch] WARNING: hospital source dir not found!'))
 
-    # ── Velocity Smoother (jerk-limited cmd_vel pipeline) ─────────────────
-    #   controller_server → /cmd_vel → velocity_smoother → /cmd_vel_smoothed
-    velocity_smoother = TimerAction(
-        period=50.0,
-        actions=[Node(
-            package='nav2_velocity_smoother',
-            executable='velocity_smoother',
-            name='velocity_smoother',
-            output='screen',
-            parameters=[_params_file],
-            remappings=[
-                ('cmd_vel',       'cmd_vel_nav'),
-                ('cmd_vel_smoothed', 'cmd_vel_smoothed'),
-                ('odom',          'odom'),
-            ],
-        )]
-    )
-
-    # ── Collision Monitor (safety layer after velocity smoother) ──────────
-    #   /cmd_vel_smoothed → collision_monitor → /cmd_vel  (final output)
-    collision_monitor = TimerAction(
-        period=50.0,
-        actions=[Node(
-            package='nav2_collision_monitor',
-            executable='collision_monitor',
-            name='collision_monitor',
-            output='screen',
-            parameters=[_params_file],
-        )]
-    )
-
     # ── Task Allocator (Hungarian assignment daemon) ───────────────────────
     task_allocator = TimerAction(
         period=60.0,
@@ -338,8 +307,8 @@ def _build_runtime_actions(context, pkg_share: str):
         ),
         slam,
         nav2,
-        velocity_smoother,
-        collision_monitor,
+        # velocity_smoother and collision_monitor are already launched by
+        # nav2_bringup/navigation_launch.py — do NOT duplicate them here.
         rviz2,
         mission_server,
         task_allocator,

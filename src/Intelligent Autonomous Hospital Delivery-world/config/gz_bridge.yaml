@@ -23,14 +23,8 @@
   gz_type_name: "gz.msgs.Twist"
   direction: ROS_TO_GZ
 
-# Smoothed velocity stream — published by velocity_smoother node.
-# When velocity_smoother is running, cmd_vel_smoothed carries the
-# jerk-limited version of cmd_vel.  Useful for monitoring and relay mode.
-- ros_topic_name: "/cmd_vel_smoothed"
-  gz_topic_name: "/cmd_vel"
-  ros_type_name: "geometry_msgs/msg/Twist"
-  gz_type_name: "gz.msgs.Twist"
-  direction: ROS_TO_GZ
+# cmd_vel_smoothed bridge REMOVED — collision_monitor outputs to /cmd_vel
+# which is the only velocity topic that should reach Gazebo's DiffDrive.
 
 - ros_topic_name: "/imu"
   gz_topic_name: "/imu"

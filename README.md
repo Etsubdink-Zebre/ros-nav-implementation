@@ -6,35 +6,70 @@ and Gazebo Harmonic simulation.
 
 **ROS 2 Jazzy | Gazebo Harmonic | Ubuntu 24.04 WSL | TurtleBot3 Waffle**
 
-## Quick Start
+## Prerequisites
 
 ```bash
-# 1. Source ROS and workspace
+sudo apt install -y \
+  ros-jazzy-ros-gz ros-jazzy-ros-gz-bridge \
+  ros-jazzy-xacro ros-jazzy-joint-state-publisher \
+  ros-jazzy-nav2-bringup ros-jazzy-slam-toolbox \
+  ros-jazzy-navigation2 ros-jazzy-teleop-twist-keyboard \
+  ros-jazzy-nav2-smac-planner
+```
+
+## Build
+
+```bash
+cd /mnt/c/Users/Hello/OneDrive/Documents/Projects/Robotics_Project
+source /opt/ros/jazzy/setup.bash
+colcon build --packages-select aws_robomaker_hospital_world --symlink-install
+source install/setup.bash
+```
+
+## Quick Start — Run Everything
+
+### Terminal 1: Launch the simulation
+
+```bash
 source /opt/ros/jazzy/setup.bash
 source install/setup.bash
+ros2 launch aws_robomaker_hospital_world slam_nav.launch.py world_name:=hospital
+```
 
-# 2. Launch simulation (TurtleBot3 in hospital world)
-ros2 launch diff_drive_robot slam_nav.launch.py world_name:=hospital rviz:=false headless:=false
+This single command launches:
+- Gazebo Harmonic (hospital world)
+- TurtleBot3 Waffle robot spawn
+- ROS-Gazebo bridge (odom, cmd_vel, tf, scan, imu)
+- SLAM Toolbox (live mapping)
+- Nav2 (MPPI controller + Hybrid-A* planner)
+- Mission Server + Hermes Agent
+- RViz2 visualization
 
-# 3. In a NEW terminal — start the mission server daemon
-source /opt/ros/jazzy/setup.bash && source install/setup.bash
-ros2 run diff_drive_robot mission_server.py --daemon
+> **Note:** Wait ~65 seconds for all nodes to initialize. You will see `Hermes Agent ready` in the terminal when the system is fully operational.
 
-# 4. In a NEW terminal — deliver medicine from reception to patient room
-source /opt/ros/jazzy/setup.bash && source install/setup.bash
-ros2 run diff_drive_robot mission_server.py patrol diff_drive reception patient_room1
+### Terminal 2: Send a delivery mission
 
-# 5. Monitor mission progress
-ros2 run diff_drive_robot mission_server.py status
+```bash
+source /opt/ros/jazzy/setup.bash
+source install/setup.bash
+ros2 run aws_robomaker_hospital_world hermes_agent.py deliver --robot diff_drive --from reception --to patient_room1
+```
 
-# 6. (Optional) Drive with keyboard
+### Alternative: Direct mission server command
+
+```bash
+source /opt/ros/jazzy/setup.bash
+source install/setup.bash
+ros2 run aws_robomaker_hospital_world mission_server.py patrol diff_drive reception patient_room1
+```
+
+### Optional: Manual keyboard control
+
+```bash
 ros2 run teleop_twist_keyboard teleop_twist_keyboard
 ```
 
-## Medicine Delivery Task
-
-The robot autonomously delivers medicines and supplies from the **Reception Center**
-(nurse station) to **Patient Room 1**. The workflow uses:
+## Medicine Delivery Workflow
 
 | Step | What happens |
 |------|-------------|
@@ -43,58 +78,6 @@ The robot autonomously delivers medicines and supplies from the **Reception Cent
 | 3 | Smac Hybrid-A* planner computes an obstacle-free global path |
 | 4 | MPPI controller follows the path with smooth, jerk-limited velocities |
 | 5 | Robot arrives at patient room and reports mission complete |
-
-**One-liner to run delivery:**
-```bash
-ros2 run diff_drive_robot mission_server.py patrol diff_drive reception patient_room1
-```
-
-Or use the helper script:
-```bash
-bash ros-nav-implementation/src/diff_drive_robot-main/scripts/deliver_medicine.sh
-```
-
-## Workspace Layout
-
-```
-Robotics_Project/                   # colcon workspace root
-├── build/                          # build artifacts
-├── install/                        # compiled install (source install/setup.bash)
-├── log/                            # build logs
-└── ros-nav-implementation/         # source repository
-    └── src/
-        ├── diff_drive_robot-main/  # ROS 2 package (ament_cmake)
-        │   └── urdf/turtlebot3_waffle_gz.urdf.xacro  # TurtleBot3 for Gazebo Harmonic
-        ├── turtlebot3/             # Official ROBOTIS TurtleBot3 (jazzy branch)
-        │   └── turtlebot3_description/  # Meshes & official model files
-        └── Intelligent Autonomous Hospital Delivery-world/  # Hospital SDF world/models
-```
-
-## Build
-
-```bash
-cd /mnt/c/Users/Hello/OneDrive/Documents/Projects/Robotics_Project
-colcon build --symlink-install
-source install/setup.bash
-```
-
-## Robot: TurtleBot3 Waffle
-
-The official ROBOTIS TurtleBot3 Waffle model (jazzy branch) adapted for Gazebo Harmonic
-with `gz::sim` plugins for differential drive, GPU lidar, IMU, and RGB camera.
-
-## Package: diff_drive_robot
-
-| Feature | Description |
-|---|---|
-| SLAM | SLAM Toolbox — pose-graph with Ceres solver |
-| Planner | Smac Hybrid-A* with Reeds-Shepp motion model |
-| Controller | MPPI (Model Predictive Path Integral) |
-| Exploration | Frontier-based — single and coordinated multi-robot |
-| Multi-robot | N robots, shared map, namespaced TF |
-| Fleet management | Mission server, Hungarian task allocator, health monitor |
-| Worlds | maze.world (self-contained SDF), hospital world |
-| Velocity smoother | Jerk-limited cmd_vel pipeline |
 
 ## Named Locations
 
@@ -107,25 +90,39 @@ with `gz::sim` plugins for differential drive, GPU lidar, IMU, and RGB camera.
 | pharmacy | 2.0, -8.0, 0° | Pharmacy pickup |
 | supply_room | -8.0, 0.0, 0° | Supply storage area |
 
-See `ros-nav-implementation/README.md` for the full documentation.
+## Package Features
 
-## Worlds
+| Feature | Description |
+|---|---|
+| SLAM | SLAM Toolbox — pose-graph with Ceres solver |
+| Planner | Smac Hybrid-A* with Reeds-Shepp motion model |
+| Controller | MPPI (Model Predictive Path Integral) |
+| Exploration | Frontier-based — single and coordinated multi-robot |
+| Multi-robot | N robots, shared map, namespaced TF |
+| Fleet management | Mission server, Hungarian task allocator, health monitor |
+| Worlds | maze.world (self-contained SDF), hospital world |
+| Velocity smoother | Jerk-limited cmd_vel pipeline |
 
-- **maze** — Self-contained SDF for testing (no asset downloads)
-- **Intelligent Autonomous Hospital Delivery-world** — Hospital environment (COLCON_IGNORE, not a ROS package)
+## Workspace Layout
 
-## Install Dependencies
-
-```bash
-sudo apt install -y \
-  ros-jazzy-ros-gz ros-jazzy-ros-gz-bridge \
-  ros-jazzy-xacro ros-jazzy-joint-state-publisher \
-  ros-jazzy-nav2-bringup ros-jazzy-slam-toolbox \
-  ros-jazzy-navigation2 ros-jazzy-teleop-twist-keyboard \
-  ros-jazzy-nav2-smac-planner
+```
+Robotics_Project/                   # colcon workspace root
+├── build/                          # build artifacts
+├── install/                        # compiled install (source install/setup.bash)
+├── log/                            # build logs
+└── ros-nav-implementation/         # source repository
+    └── src/
+        └── Intelligent Autonomous Hospital Delivery-world/
+            ├── config/             # Nav2, SLAM, bridge YAML configs
+            ├── launch/             # slam_nav.launch.py (main entry point)
+            ├── models/             # TurtleBot3 URDF + hospital furniture models
+            ├── scripts/            # Python nodes (hermes_agent, mission_server, etc.)
+            └── worlds/             # hospital.world SDF
 ```
 
-## WSL Note
+## WSL Notes
 
-Running Gazebo GUI on WSL requires an X server (e.g. VcXsrv, WSLg).
-Use `headless:=true` to run without GUI for CI or remote testing.
+- GPU lidar and camera sensors are disabled (ogre2 segfaults on WSL without GPU passthrough).
+- A `fake_laser.py` node provides synthetic `/scan` data for SLAM and Nav2 costmaps.
+- Use `headless:=true` to run without the Gazebo GUI.
+- RViz requires WSLg or an X server (e.g. VcXsrv).

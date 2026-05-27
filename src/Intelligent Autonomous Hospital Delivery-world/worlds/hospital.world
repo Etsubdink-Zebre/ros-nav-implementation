@@ -20,9 +20,11 @@
     </plugin>
     <plugin filename="ignition-gazebo-user-commands-system" name="ignition::gazebo::systems::UserCommands"/>
     <plugin filename="ignition-gazebo-scene-broadcaster-system" name="ignition::gazebo::systems::SceneBroadcaster"/>
+    <!-- DISABLED on WSL: ogre2 sensors-system segfaults without GPU passthrough.
     <plugin filename="ignition-gazebo-sensors-system" name="ignition::gazebo::systems::Sensors">
       <render_engine>ogre2</render_engine>
     </plugin>
+    -->
     <plugin filename="ignition-gazebo-contact-system" name="ignition::gazebo::systems::Contact"/>
     <!-- Strong directional light from above -->
     <light type="directional" name="sun">
