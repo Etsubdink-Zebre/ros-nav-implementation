@@ -1,0 +1,117 @@
+<?xml version="1.0"?>
+<!--
+  Hospital Delivery Behavior Tree
+  ================================
+  Primary planner:  Smac Hybrid-A* (Reeds-Shepp)
+  Local controller: MPPI
+  Recovery sequence:
+    1. Wait 2s (obstacle may clear)
+    2. Clear local costmap
+    3. BackUp 0.5m
+    4. Spin 1.57 rad
+    5. Clear global costmap
+    6. Reinitialize localization
+-->
+<root BTCPP_format="4" main_tree_to_execute="HospitalNavigate">
+
+  <BehaviorTree ID="HospitalNavigate">
+    <RecoveryNode number_of_retries="6" name="NavigateRecovery">
+
+      <PipelineSequence name="NavigateWithReplanning">
+
+        <!-- Replan at 1Hz if path expires or goal updates -->
+        <RateController hz="1.0">
+          <RecoveryNode number_of_retries="1" name="ComputePathRecovery">
+            <ReactiveSequence name="ReplanOnExpiry">
+              <PathExpiringTimer seconds="2.0"/>
+              <ComputePathToPose goal="{goal}" path="{path}"
+                                 planner_id="SmacHybrid"
+                                 error_code_id="{compute_path_error_code}"/>
+            </ReactiveSequence>
+            <ReactiveFallback name="PathFallback">
+              <GoalUpdated/>
+              <!-- Fall back to A* if Hybrid-A* fails -->
+              <ComputePathToPose goal="{goal}" path="{path}"
+                                 planner_id="GridBased"
+                                 error_code_id="{compute_path_error_code}"/>
+            </ReactiveFallback>
+          </RecoveryNode>
+        </RateController>
+
+        <SmoothPath path="{path}" smoothed_path="{path}"/>
+
+        <!-- Follow with MPPI, recover on stuck/collision -->
+        <RecoveryNode number_of_retries="4" name="FollowPathRecovery">
+
+          <ReactiveSequence name="FollowPathWithPathCheck">
+            <IsPathValid path="{path}"/>
+            <FollowPath path="{path}" controller_id="FollowPath"
+                        error_code_id="{follow_path_error_code}"/>
+          </ReactiveSequence>
+
+          <ReactiveFallback name="RecoveryFallback">
+            <GoalUpdated/>
+            <RoundRobin name="RecoveryActions">
+
+              <!-- Step 1: brief pause (obstacle may pass) -->
+              <Sequence name="WaitForObstacleClear">
+                <Wait duration="2.0"/>
+                <ClearEntireCostmap name="ClearLocal"
+                  service_name="local_costmap/clear_entirely_local_costmap"/>
+              </Sequence>
+
+              <!-- Step 2: back up and retry -->
+              <Sequence name="BackUpAndRetry">
+                <BackUp backup_dist="0.4" backup_speed="0.05"
+                        time_allowance="10"/>
+                <ClearEntireCostmap name="ClearLocal2"
+                  service_name="local_costmap/clear_entirely_local_costmap"/>
+              </Sequence>
+
+              <!-- Step 3: spin to new orientation -->
+              <Sequence name="SpinAndRetry">
+                <Spin spin_dist="1.57" time_allowance="10"/>
+                <ClearEntireCostmap name="ClearGlobal"
+                  service_name="global_costmap/clear_entirely_global_costmap"/>
+              </Sequence>
+
+              <!-- Step 4: reinitialize localization -->
+              <ReinitializeGlobalLocalization/>
+
+            </RoundRobin>
+          </ReactiveFallback>
+
+        </RecoveryNode>
+
+      </PipelineSequence>
+
+      <!-- Global recovery on total failure -->
+      <ReactiveFallback name="GlobalRecovery">
+        <GoalUpdated/>
+        <Sequence name="ClearAndSpin">
+          <ClearEntireCostmap name="ClearAll1"
+            service_name="local_costmap/clear_entirely_local_costmap"/>
+          <ClearEntireCostmap name="ClearAll2"
+            service_name="global_costmap/clear_entirely_global_costmap"/>
+          <Spin spin_dist="3.14" time_allowance="20"/>
+        </Sequence>
+      </ReactiveFallback>
+
+    </RecoveryNode>
+  </BehaviorTree>
+
+  <BehaviorTree ID="NavigateThroughPoses">
+    <RecoveryNode number_of_retries="6" name="NavigateRecovery">
+      <PipelineSequence name="NavigateWithReplanning">
+        <RateController hz="1.0">
+          <ComputePathThroughPoses goals="{goals}" path="{path}"
+                                   planner_id="SmacHybrid"/>
+        </RateController>
+        <SmoothPath path="{path}" smoothed_path="{path}"/>
+        <FollowPath path="{path}" controller_id="FollowPath"/>
+      </PipelineSequence>
+      <Spin spin_dist="1.57"/>
+    </RecoveryNode>
+  </BehaviorTree>
+
+</root>

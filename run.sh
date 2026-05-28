@@ -1,107 +1,34 @@
-#!/usr/bin/env bash
-# run.sh — interactive launcher for the rosnav project.
-#   Asks two questions, then runs the appropriate ros2 launch.
-#   In manual mode, also opens a separate Windows Terminal tab for teleop.
-
+#!/bin/bash
+# Hospital Robot — Docker on WSL2 (uses WSLg GPU passthrough)
 set -e
+cd "$(dirname "$0")"
 
-# ---- source ROS + workspace ----
-if [[ -z "${ROS_DISTRO:-}" ]]; then
-  source /opt/ros/jazzy/setup.bash
-fi
-# ---- locate this script's directory ----
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-WORKSPACE_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
+# Build context: use the WORKING WSL workspace
+WSL_WS=/home/fransi/hospital_ws
 
-if [[ -f "$WORKSPACE_DIR/install/setup.bash" ]]; then
-  source "$WORKSPACE_DIR/install/setup.bash"
-else
-  echo "ERROR: $WORKSPACE_DIR/install/setup.bash not found." >&2
-  echo "Build the workspace first:  cd \"$WORKSPACE_DIR\" && colcon build --symlink-install" >&2
-  exit 1
+if [ ! -d "$WSL_WS" ]; then
+    echo "ERROR: Workspace not found at $WSL_WS"
+    echo "Run install.sh first in WSL: cd ~/hospital_ws && ./install.sh"
+    exit 1
 fi
 
-# ---- menu helper ----
-pick() {
-  local prompt="$1"; shift
-  local options=("$@")
-  local n=${#options[@]}
-  local reply i
-  while true; do
-    echo "$prompt" >&2
-    for ((i=0; i<n; i++)); do
-      printf "  [%d] %s\n" "$((i+1))" "${options[i]}" >&2
-    done
-    read -rp "Choice [1-$n]: " reply
-    if [[ "$reply" =~ ^[0-9]+$ ]] && (( reply >= 1 && reply <= n )); then
-      echo "$reply"
-      return
-    fi
-    echo "  invalid — type a number between 1 and $n" >&2
-  done
-}
+echo "=== Building Docker image from $WSL_WS ==="
+docker build \
+    -f Dockerfile \
+    -t hospital-robot \
+    "$WSL_WS"
 
-# ---- locate teleop.sh path ----
-TELEOP_SCRIPT="$SCRIPT_DIR/teleop.sh"
-
-echo
-echo "=== rosnav launcher ==="
-echo "World: hospital"
-echo
-
-# ---- step 1: fleet size ----
-fleet=$(pick "Fleet size?" "Single robot" "Multi robot")
-echo
-
-# ---- step 2: control mode ----
-mode=$(pick "Control mode?" "Automatic (frontier exploration)" "Manual (drive with keyboard)")
-case "$mode" in 1) explore_arg="true" ;; 2) explore_arg="false" ;; esac
-echo
-
-# ---- build the launch command ----
-HOSPITAL_DIR="$SCRIPT_DIR/src/Intelligent Autonomous Hospital Delivery-world"
-export GZ_SIM_RESOURCE_PATH="${GZ_SIM_RESOURCE_PATH}:${HOSPITAL_DIR}/models:${HOSPITAL_DIR}/fuel_models"
-world_path="${HOSPITAL_DIR}/worlds/hospital.world"
-
-case "$fleet" in
-  1) launch_cmd=(ros2 launch diff_drive_robot slam_nav.launch.py
-                 "world:=$world_path" "explore:=$explore_arg" rviz:=True) ;;
-  2) launch_cmd=(ros2 launch diff_drive_robot multi_robot.launch.py
-                 "world:=$world_path" "explore:=$explore_arg" rviz:=True) ;;
-esac
-
-# ---- manual mode: spawn teleop in a new Windows Terminal tab ----
-if [[ "$mode" == "2" ]]; then
-  # Always print the manual fallback so the user has a working command if the
-  # auto-open misses (e.g. wt.exe not in PATH, or not running inside Windows
-  # Terminal so -w 0 can't find a current window).
-  echo "Manual mode."
-  echo "If a teleop tab does NOT open automatically in a few seconds, open"
-  echo "a new Ubuntu tab in Windows Terminal manually and run:"
-  echo "    bash '$TELEOP_SCRIPT'"
-  echo
-
-  if command -v wt.exe >/dev/null 2>&1 && [[ -x "$TELEOP_SCRIPT" ]]; then
-    # Use -w 0 (current window) when we're inside Windows Terminal, otherwise
-    # spawn a fresh window. Detect by checking WT_SESSION (set by Windows Terminal).
-    if [[ -n "${WT_SESSION:-}" ]]; then
-      WT_TARGET=(-w 0 nt)
-    else
-      WT_TARGET=(nt)
-    fi
-    # Route through wsl.exe so the command runs in WSL, not as a Windows process.
-    # The Ubuntu profile only controls tab styling; the actual commandline is the
-    # explicit `wsl.exe -d Ubuntu -- bash <script>`.
-    (
-      wt.exe "${WT_TARGET[@]}" -p Ubuntu wsl.exe -d Ubuntu -- bash "$TELEOP_SCRIPT" \
-        >/dev/null 2>&1 < /dev/null &
-    )
-    echo "Teleop tab opening — wait ~60s for it to print 'Teleop ready'."
-    echo
-  fi
-fi
-
-echo "Launching: ${launch_cmd[*]}"
-echo "(Ctrl-C in this tab to stop the simulation.)"
-echo
-exec "${launch_cmd[@]}"
+echo "=== Launching with WSLg GPU ==="
+docker run -it --rm \
+    --privileged \
+    --network host \
+    -e DISPLAY=$DISPLAY \
+    -e WAYLAND_DISPLAY=$WAYLAND_DISPLAY \
+    -e XDG_RUNTIME_DIR=$XDG_RUNTIME_DIR \
+    -e LIBGL_ALWAYS_SOFTWARE=0 \
+    -v /tmp/.X11-unix:/tmp/.X11-unix:rw \
+    -v /mnt/wslg:/mnt/wslg:ro \
+    -v /usr/lib/wsl:/usr/lib/wsl:ro \
+    --device=/dev/dri \
+    hospital-robot \
+    ros2 launch hospital_robot hospital_slam.launch.py
